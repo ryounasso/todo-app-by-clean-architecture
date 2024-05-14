@@ -1,2 +1,8 @@
 .pnpm-store
 node_modules
+
+# compiled output
+dist
+
+# OS
+.DS_Store
