@@ -1,4 +1,4 @@
-class Task {
+export class Task {
   private id: number;
   private title: string;
   private createdAt: Date;
