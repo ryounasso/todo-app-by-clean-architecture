@@ -8,7 +8,7 @@ export class GetController {
     @Inject('TodoService') private readonly todoService: TodoService,
   ) {}
 
-  @Get('list')
+  @Get('list.json')
   run(@Query('user_id') user_id: number): GetOutputForm[] {
     if (!user_id) throw new Error('user_id is required');
 
