@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
-import { TaskRepository } from '../usecases/task.repository';
 import { TodoDto } from '../usecases/todo.dto';
 import { AddTodoDto } from '../usecases/addTodo.dto';
 
@@ -19,12 +18,12 @@ describe('TodoService', () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: 'TodoService', useClass: TodoServiceImpl },
-        { provide: TaskRepository, useFactory: mockTaskRepository },
+        { provide: 'TaskRepository', useFactory: mockTaskRepository },
       ],
     }).compile();
 
     taskService = app.get('TodoService');
-    taskRepository = app.get(TaskRepository);
+    taskRepository = app.get('TaskRepository');
   });
 
   describe('root', () => {

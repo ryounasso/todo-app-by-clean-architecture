@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { TodoDto } from './todo.dto';
+import { TodoDto } from '../usecases/todo.dto';
 import { mockInsertedTask, mockTaskList } from '../drivers/mock/task';
-import { AddTodoDto } from './addTodo.dto';
+import { AddTodoDto } from '../usecases/addTodo.dto';
+import { TaskRepository } from './task.repository';
 
 @Injectable()
-export class TaskRepository {
+export class TaskRepositoryImpl implements TaskRepository {
   findTasks(userId: number): TodoDto[] {
     const tasks = mockTaskList();
     return tasks.map((task) => {
