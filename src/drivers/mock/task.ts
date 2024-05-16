@@ -1,5 +1,5 @@
+import { AddTodoDto } from 'src/interfaceAdapters/addTodo.dto';
 import { Task } from '../../entities/task';
-import { AddTodoDto } from 'src/usecases/addTodo.dto';
 
 export const mockTaskList = (): Task[] => {
   return [

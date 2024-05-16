@@ -1,8 +1,9 @@
-import { TodoDto } from '../usecases/todo.dto';
-import { AddTodoDto } from '../usecases/addTodo.dto';
+import { AddTodoDto } from './addTodo.dto';
+import { TodoDto } from './todo.dto';
+import { TodoDto as UsecaseTodoDto } from '../usecases/todo.dto';
 
 export interface TaskRepository {
   findTasks(userId: number): TodoDto[];
 
-  insertTask(todo: AddTodoDto): TodoDto;
+  insertTask(todo: AddTodoDto): UsecaseTodoDto;
 }

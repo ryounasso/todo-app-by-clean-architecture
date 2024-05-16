@@ -3,6 +3,8 @@ import { GetController } from './interfaceAdapters/get.controller';
 import { TodoServiceImpl } from './usecases/todo.serviceImpl';
 import { AddController } from './interfaceAdapters/add.controller';
 import { TaskRepositoryImpl } from './interfaceAdapters/task.repositoryImpl';
+import { TodoDxoImpl } from './usecases/todo.dxoImpl';
+import { TodoDxoImpl as AdapterTodoDxoImpl } from './interfaceAdapters/todo.dxoImpl';
 
 @Module({
   imports: [],
@@ -15,6 +17,14 @@ import { TaskRepositoryImpl } from './interfaceAdapters/task.repositoryImpl';
     {
       provide: 'TaskRepository',
       useClass: TaskRepositoryImpl,
+    },
+    {
+      provide: 'UsecaseTodoDxo',
+      useClass: TodoDxoImpl,
+    },
+    {
+      provide: 'AdapterTodoDxo',
+      useClass: AdapterTodoDxoImpl,
     },
   ],
 })
