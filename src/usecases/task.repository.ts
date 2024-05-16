@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TodoDto } from './todo.dto';
-import { mockTaskList } from '../drivers/mock/task';
+import { mockInsertedTask, mockTaskList } from '../drivers/mock/task';
+import { AddTodoDto } from './addTodo.dto';
 
 @Injectable()
 export class TaskRepository {
@@ -14,5 +15,15 @@ export class TaskRepository {
         task.getCreatedAt(),
       );
     });
+  }
+
+  insertTask(todo: AddTodoDto): TodoDto {
+    const insertedTask = mockInsertedTask(todo);
+    return new TodoDto(
+      insertedTask.getId(),
+      insertedTask.getTitle(),
+      todo.getUserId(),
+      insertedTask.getCreatedAt(),
+    );
   }
 }
