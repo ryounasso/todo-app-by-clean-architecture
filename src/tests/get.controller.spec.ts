@@ -4,7 +4,7 @@ import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
 import { GetOutputForm } from '../interfaceAdapters/get.outputform';
 import { TodoDto } from '../usecases/todo.dto';
 import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
-import { TodoDxoImpl as AdapterTodoDxoImpl } from '../usecases/todo.dxoImpl';
+import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
 
 const mockTaskRepository = () => ({
   findTasks: jest.fn(),
