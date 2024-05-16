@@ -3,6 +3,8 @@ import { GetController } from '../interfaceAdapters/get.controller';
 import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
 import { GetOutputForm } from '../interfaceAdapters/get.outputform';
 import { TodoDto } from '../usecases/todo.dto';
+import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
+import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
 
 const mockTaskRepository = () => ({
   findTasks: jest.fn(),
@@ -20,6 +22,8 @@ describe('GetController', () => {
       providers: [
         { provide: 'TodoService', useClass: TodoServiceImpl },
         { provide: 'TaskRepository', useFactory: mockTaskRepository },
+        { provide: 'UsecaseTodoDxo', useClass: TodoDxoImpl },
+        { provide: 'AdapterTodoDxo', useClass: AdapterTodoDxoImpl },
       ],
     }).compile();
 
