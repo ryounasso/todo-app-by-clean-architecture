@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
-import { TaskRepository } from '../usecases/task.repository';
 import { TodoDto } from '../usecases/todo.dto';
 import { AddTodoDto } from '../usecases/addTodo.dto';
+import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
+import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
 
 const mockTaskRepository = () => ({
   findTasks: jest.fn(),
@@ -19,12 +20,14 @@ describe('TodoService', () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: 'TodoService', useClass: TodoServiceImpl },
-        { provide: TaskRepository, useFactory: mockTaskRepository },
+        { provide: 'TaskRepository', useFactory: mockTaskRepository },
+        { provide: 'UsecaseTodoDxo', useClass: TodoDxoImpl },
+        { provide: 'AdapterTodoDxo', useClass: AdapterTodoDxoImpl },
       ],
     }).compile();
 
     taskService = app.get('TodoService');
-    taskRepository = app.get(TaskRepository);
+    taskRepository = app.get('TaskRepository');
   });
 
   describe('root', () => {
