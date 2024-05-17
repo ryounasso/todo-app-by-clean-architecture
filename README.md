@@ -71,3 +71,13 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Commands
+### Get Task LIst
+`curl localhost:3000/todo/list.json?user_id=1`
+
+### Add Task
+`curl -X POST localhost:3000/todo/add.json -H "Content-Type: application/json" -d '{"title": "テストA", "user_id": 1}'`
+
+### Update Task
+`curl -X PUT localhost:3000/todo/update.json -H "Content-Type: application/json" -d '{"id":1,"user_id":1, "title":"update Task"}'`

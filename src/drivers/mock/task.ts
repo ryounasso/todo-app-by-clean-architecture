@@ -1,6 +1,10 @@
 import { AddTodoDto } from 'src/interfaceAdapters/addTodo.dto';
 import { Task } from '../../entities/task';
 
+export const mockTask = (id: number): Task => {
+  return new Task(id, 'Task 1', new Date());
+};
+
 export const mockTaskList = (): Task[] => {
   return [
     new Task(1, 'Task 1', new Date()),

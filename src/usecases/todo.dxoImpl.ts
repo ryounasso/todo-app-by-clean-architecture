@@ -17,4 +17,8 @@ export class TodoDxoImpl implements TodoDxo {
   convertToAddTodoDto(addTodoDto: AddTodoDto): AdapterAddTodoDto {
     return new AdapterAddTodoDto(addTodoDto.getUserId(), addTodoDto.getTitle());
   }
+
+  convertToAddTodoDtoFromTodoDto(todoDto: TodoDto): AdapterAddTodoDto {
+    return new AdapterAddTodoDto(todoDto.getUserId(), todoDto.getTitle());
+  }
 }

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { mockInsertedTask, mockTaskList } from '../drivers/mock/task';
+import { mockInsertedTask, mockTask, mockTaskList } from '../drivers/mock/task';
 import { TaskRepository } from './task.repository';
 import { AddTodoDto } from './addTodo.dto';
 import { TodoDto as UsecaseTodoDto } from '../usecases/todo.dto';
@@ -10,6 +10,13 @@ import { TodoDto } from './todo.dto';
 export class TaskRepositoryImpl implements TaskRepository {
   constructor(@Inject('AdapterTodoDxo') private readonly todoDxo: TodoDxo) {}
 
+  findById(id: number): UsecaseTodoDto {
+    const task = mockTask(id);
+    return this.todoDxo.convertToUsecaseTodoDto(
+      new TodoDto(task.getId(), task.getTitle(), 1, task.getCreatedAt()),
+    );
+  }
+
   findTasks(userId: number): UsecaseTodoDto[] {
     const tasks = mockTaskList();
     return tasks.map((task) => {
@@ -19,14 +26,26 @@ export class TaskRepositoryImpl implements TaskRepository {
     });
   }
 
-  insertTask(todo: AddTodoDto): UsecaseTodoDto {
-    const insertedTask = mockInsertedTask(todo);
+  insert(task: AddTodoDto): UsecaseTodoDto {
+    const insertedTask = mockInsertedTask(task);
     return this.todoDxo.convertToUsecaseTodoDto(
       new TodoDto(
         insertedTask.getId(),
         insertedTask.getTitle(),
-        todo.getUserId(),
+        task.getUserId(),
         insertedTask.getCreatedAt(),
+      ),
+    );
+  }
+
+  update(task: AddTodoDto): UsecaseTodoDto {
+    const updatedTask = mockInsertedTask(task);
+    return this.todoDxo.convertToUsecaseTodoDto(
+      new TodoDto(
+        updatedTask.getId(),
+        updatedTask.getTitle(),
+        task.getUserId(),
+        updatedTask.getCreatedAt(),
       ),
     );
   }
