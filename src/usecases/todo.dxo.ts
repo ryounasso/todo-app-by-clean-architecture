@@ -7,4 +7,6 @@ export interface TodoDxo {
   convertToTodoDto(todoDto: TodoDto): AdapterTodoDto;
 
   convertToAddTodoDto(addTodoDto: AddTodoDto): AdapterAddTodoDto;
+
+  convertToAddTodoDtoFromTodoDto(todoDto: TodoDto): AdapterAddTodoDto;
 }

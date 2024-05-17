@@ -4,10 +4,13 @@ import { TodoDto } from '../usecases/todo.dto';
 import { AddTodoDto } from '../usecases/addTodo.dto';
 import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
 import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
+import { UpdateTodoDto } from '../usecases/update.todo.dto';
 
 const mockTaskRepository = () => ({
+  findById: jest.fn(),
   findTasks: jest.fn(),
-  insertTask: jest.fn(),
+  insert: jest.fn(),
+  update: jest.fn(),
 });
 
 const user_id = 1;
@@ -48,11 +51,28 @@ describe('TodoService', () => {
     it('should return created Todo', () => {
       const title = 'Task 1';
 
-      taskRepository.insertTask.mockReturnValue(
+      taskRepository.insert.mockReturnValue(
         createMockInsertedTask(user_id, title),
       );
       const result = taskService.addTodo(new AddTodoDto(user_id, title));
       const expected = createExpectedTodoDto();
+      expect(result).toEqual(expected);
+    });
+
+    it('should update Todo', () => {
+      const title = 'Task 1';
+      const id = 1;
+      const createdAt = new Date();
+
+      taskRepository.findById.mockReturnValue(
+        createExpectedTodoDto(title, createdAt),
+      );
+
+      taskRepository.update.mockReturnValue(
+        createExpectedTodoDto(title, createdAt),
+      );
+      const result = taskService.setTodo(new UpdateTodoDto(id, title, user_id));
+      const expected = createExpectedTodoDto(undefined, createdAt);
       expect(result).toEqual(expected);
     });
   });
@@ -78,6 +98,9 @@ const createMockInsertedTask = (user_id: number, title: string): TodoDto => {
   return new TodoDto(1, title, user_id, new Date());
 };
 
-const createExpectedTodoDto = () => {
-  return new TodoDto(1, 'Task 1', user_id, new Date());
+const createExpectedTodoDto = (
+  title: string = 'Task 1',
+  createdAt: Date = new Date(),
+) => {
+  return new TodoDto(1, title, user_id, createdAt);
 };

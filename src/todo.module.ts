@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
-import { GetController } from './interfaceAdapters/get.controller';
+import { GetController } from './interfaceAdapters/controllers/get.controller';
 import { TodoServiceImpl } from './usecases/todo.serviceImpl';
-import { AddController } from './interfaceAdapters/add.controller';
+import { AddController } from './interfaceAdapters/controllers/add.controller';
 import { TaskRepositoryImpl } from './interfaceAdapters/task.repositoryImpl';
 import { TodoDxoImpl } from './usecases/todo.dxoImpl';
 import { TodoDxoImpl as AdapterTodoDxoImpl } from './interfaceAdapters/todo.dxoImpl';
+import { UpdateController } from './interfaceAdapters/controllers/update.controller';
 
 @Module({
   imports: [],
-  controllers: [GetController, AddController],
+  controllers: [GetController, AddController, UpdateController],
   providers: [
     {
       provide: 'TodoService',
