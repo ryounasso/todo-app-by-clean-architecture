@@ -1,5 +1,5 @@
 import { AddTodoDto } from './addTodo.dto';
-import { TodoDto as UsecaseTodoDto } from '../usecases/todo.dto';
+import { TodoDto as UsecaseTodoDto } from '../../usecases/todo.dto';
 import { UpdateTodoDto } from './updateTodo.dto';
 
 export interface TaskRepository {

@@ -1,16 +1,18 @@
 import { Module } from '@nestjs/common';
-import { GetController } from './interfaceAdapters/controllers/get.controller';
+import { GetController } from './interfaceAdapters/task/get.controller';
 import { TodoServiceImpl } from './usecases/todo.serviceImpl';
-import { AddController } from './interfaceAdapters/controllers/add.controller';
-import { TaskRepositoryImpl } from './interfaceAdapters/task.repositoryImpl';
+import { AddController } from './interfaceAdapters/task/add.controller';
+import { TaskRepositoryImpl } from './interfaceAdapters/task/task.repositoryImpl';
 import { TodoDxoImpl } from './usecases/todo.dxoImpl';
-import { TodoDxoImpl as AdapterTodoDxoImpl } from './interfaceAdapters/todo.dxoImpl';
-import { UpdateController } from './interfaceAdapters/controllers/update.controller';
+import { TodoDxoImpl as AdapterTodoDxoImpl } from './interfaceAdapters/task/todo.dxoImpl';
+import { UpdateController } from './interfaceAdapters/task/update.controller';
 import { PrismaServiceImpl } from './interfaceAdapters/prisma.serviceImpl';
+import { PostController } from './interfaceAdapters/status/post.controller';
+import { StatusRepositoryImpl } from './interfaceAdapters/status/status.repositoryImpl';
 
 @Module({
   imports: [],
-  controllers: [GetController, AddController, UpdateController],
+  controllers: [GetController, AddController, UpdateController, PostController],
   providers: [
     {
       provide: 'TodoService',
@@ -29,6 +31,7 @@ import { PrismaServiceImpl } from './interfaceAdapters/prisma.serviceImpl';
       useClass: AdapterTodoDxoImpl,
     },
     { provide: 'PrismaService', useClass: PrismaServiceImpl },
+    { provide: 'StatusRepository', useClass: StatusRepositoryImpl },
   ],
 })
 export class TodoModule {}

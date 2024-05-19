@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { TaskRepository } from './task.repository';
 import { AddTodoDto } from './addTodo.dto';
-import { TodoDto as UsecaseTodoDto } from '../usecases/todo.dto';
+import { TodoDto as UsecaseTodoDto } from '../../usecases/todo.dto';
 import { TodoDxo } from './todo.dxo';
 import { TodoDto } from './todo.dto';
-import { PrismaService } from './prisma.service';
+import { PrismaService } from '../prisma.service';
 import { UpdateTodoDto } from './updateTodo.dto';
 
 @Injectable()

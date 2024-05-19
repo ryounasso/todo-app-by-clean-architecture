@@ -3,7 +3,7 @@ import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
 import { TodoDto } from '../usecases/todo.dto';
 import { AddTodoDto } from '../usecases/addTodo.dto';
 import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
-import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
+import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/task/todo.dxoImpl';
 import { UpdateTodoDto } from '../usecases/update.todo.dto';
 
 const mockTaskRepository = () => ({

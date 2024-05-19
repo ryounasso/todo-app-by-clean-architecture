@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { UpdateTodo } from './prisma.service';
-import { AddTodoDto } from './addTodo.dto';
+import { AddTodoDto } from './task/addTodo.dto';
 
 @Injectable()
 export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {
@@ -28,6 +28,15 @@ export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {
       where: { id: task.id },
       data: {
         title: task.title,
+      },
+    });
+  }
+
+  async insertStatus(updateStatus: { taskId: number; status: string }) {
+    return await this.status.create({
+      data: {
+        taskId: updateStatus.taskId,
+        status: updateStatus.status,
       },
     });
   }

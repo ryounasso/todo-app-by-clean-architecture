@@ -25,7 +25,17 @@ model User {
 model Task {
   id        Int      @default(autoincrement()) @id
   userId    Int
-  user    User @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
   title     String
   createdAt DateTime @default(now())
+  status    Status?
+}
+
+model Status {
+  id        Int      @default(autoincrement()) @id
+  taskId    Int      @unique
+  status    String
+  createdAt DateTime @default(now())
+  finishedAt DateTime?
+  task      Task    @relation(fields: [taskId], references: [id])
 }

@@ -17,7 +17,7 @@ export class UpdateController {
     @Inject('TodoService') private readonly todoService: TodoService,
   ) {}
 
-  @Put('update.json')
+  @Put('title.json')
   @UsePipes(new ValidationPipe({ transform: true }))
   async run(@Body() body: UpdateInputForm): Promise<UpdateOutputForm> {
     const todoDto = await this.todoService.setTodo(
