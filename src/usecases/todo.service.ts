@@ -7,5 +7,5 @@ export interface TodoService {
 
   addTodo(addTodoDto: AddTodoDto): TodoDto;
 
-  setTodo(todoDto: UpdateTodoDto): TodoDto;
+  setTodo(todoDto: UpdateTodoDto): Promise<TodoDto>;
 }

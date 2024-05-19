@@ -6,6 +6,7 @@ import { TaskRepositoryImpl } from './interfaceAdapters/task.repositoryImpl';
 import { TodoDxoImpl } from './usecases/todo.dxoImpl';
 import { TodoDxoImpl as AdapterTodoDxoImpl } from './interfaceAdapters/todo.dxoImpl';
 import { UpdateController } from './interfaceAdapters/controllers/update.controller';
+import { PrismaServiceImpl } from './interfaceAdapters/prisma.serviceImpl';
 
 @Module({
   imports: [],
@@ -27,6 +28,7 @@ import { UpdateController } from './interfaceAdapters/controllers/update.control
       provide: 'AdapterTodoDxo',
       useClass: AdapterTodoDxoImpl,
     },
+    { provide: 'PrismaService', useClass: PrismaServiceImpl },
   ],
 })
 export class TodoModule {}

@@ -3,6 +3,8 @@ import { TodoDxo } from './todo.dxo';
 import { TodoDto as AdapterTodoDto } from '../interfaceAdapters/todo.dto';
 import { AddTodoDto } from './addTodo.dto';
 import { AddTodoDto as AdapterAddTodoDto } from '../interfaceAdapters/addTodo.dto';
+import { UpdateTodoDto } from './update.todo.dto';
+import { UpdateTodoDto as AdapterUpdateTodoDto } from '../interfaceAdapters/updateTodo.dto';
 
 export class TodoDxoImpl implements TodoDxo {
   convertToTodoDto(todoDto: TodoDto): AdapterTodoDto {
@@ -18,7 +20,7 @@ export class TodoDxoImpl implements TodoDxo {
     return new AdapterAddTodoDto(addTodoDto.getUserId(), addTodoDto.getTitle());
   }
 
-  convertToAddTodoDtoFromTodoDto(todoDto: TodoDto): AdapterAddTodoDto {
-    return new AdapterAddTodoDto(todoDto.getUserId(), todoDto.getTitle());
+  convertToUpdateTodoDto(todoDto: UpdateTodoDto): AdapterUpdateTodoDto {
+    return new AdapterUpdateTodoDto(todoDto.getId(), todoDto.getTitle());
   }
 }

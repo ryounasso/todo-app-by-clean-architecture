@@ -23,19 +23,20 @@ export class TodoServiceImpl implements TodoService {
     );
   }
 
-  setTodo = (updateTodoDto: UpdateTodoDto): TodoDto => {
-    const createdAt = this.taskRepository
-      .findById(updateTodoDto.getId())
-      .getCreatedAt();
-    return this.taskRepository.update(
-      this.todoDxo.convertToAddTodoDtoFromTodoDto(
-        new TodoDto(
-          updateTodoDto.getId(),
-          updateTodoDto.getTitle(),
-          updateTodoDto.getUserId(),
-          createdAt,
-        ),
+  async setTodo(updateTodoDto: UpdateTodoDto): Promise<TodoDto> {
+    const task = await this.taskRepository.update(
+      this.todoDxo.convertToUpdateTodoDto(
+        new UpdateTodoDto(updateTodoDto.getId(), updateTodoDto.getTitle()),
       ),
     );
-  };
+
+    return this.todoDxo.convertToTodoDto(
+      new TodoDto(
+        task.getId(),
+        task.getTitle(),
+        task.getUserId(),
+        task.getCreatedAt(),
+      ),
+    );
+  }
 }

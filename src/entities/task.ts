@@ -1,11 +1,13 @@
 export class Task {
   private id: number;
   private title: string;
+
   private createdAt: Date;
 
   constructor(id: number, title: string, createdAt: Date) {
     this.id = id;
     this.title = title;
+
     this.createdAt = createdAt;
   }
 
