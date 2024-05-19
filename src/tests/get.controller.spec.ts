@@ -58,8 +58,8 @@ const createExpectedGetOutputForm = (): GetOutputForm[] => {
 
 const createMockTodoDto = (): TodoDto[] => {
   return [
-    new TodoDto(1, 'Task 1', user_id, new Date()),
-    new TodoDto(2, 'Task 2', user_id, new Date()),
-    new TodoDto(3, 'Task 3', user_id, new Date()),
+    new TodoDto(1, 'Task 1', user_id, 'ready', new Date()),
+    new TodoDto(2, 'Task 2', user_id, 'ready', new Date()),
+    new TodoDto(3, 'Task 3', user_id, 'ready', new Date()),
   ];
 };

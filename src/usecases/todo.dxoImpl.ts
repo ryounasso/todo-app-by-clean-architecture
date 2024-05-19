@@ -12,6 +12,7 @@ export class TodoDxoImpl implements TodoDxo {
       todoDto.getId(),
       todoDto.getTitle(),
       todoDto.getUserId(),
+      todoDto.getStatus(),
       todoDto.getCreatedAt(),
     );
   }
@@ -21,6 +22,10 @@ export class TodoDxoImpl implements TodoDxo {
   }
 
   convertToUpdateTodoDto(todoDto: UpdateTodoDto): AdapterUpdateTodoDto {
-    return new AdapterUpdateTodoDto(todoDto.getId(), todoDto.getTitle());
+    return new AdapterUpdateTodoDto(
+      todoDto.getId(),
+      todoDto.getTitle(),
+      todoDto.getStatus(),
+    );
   }
 }

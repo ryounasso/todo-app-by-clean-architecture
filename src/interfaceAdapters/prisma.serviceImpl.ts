@@ -26,18 +26,7 @@ export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {
   async updateTask(task: UpdateTodo) {
     return await this.task.update({
       where: { id: task.id },
-      data: {
-        title: task.title,
-      },
-    });
-  }
-
-  async insertStatus(updateStatus: { taskId: number; status: string }) {
-    return await this.status.create({
-      data: {
-        taskId: updateStatus.taskId,
-        status: updateStatus.status,
-      },
+      data: task,
     });
   }
 }

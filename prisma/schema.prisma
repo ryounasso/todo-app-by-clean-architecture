@@ -27,15 +27,7 @@ model Task {
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   title     String
-  createdAt DateTime @default(now())
-  status    Status?
-}
-
-model Status {
-  id        Int      @default(autoincrement()) @id
-  taskId    Int      @unique
-  status    String
+  status    String   @default("ready")
   createdAt DateTime @default(now())
   finishedAt DateTime?
-  task      Task    @relation(fields: [taskId], references: [id])
 }

@@ -7,8 +7,7 @@ import { TodoDxoImpl } from './usecases/todo.dxoImpl';
 import { TodoDxoImpl as AdapterTodoDxoImpl } from './interfaceAdapters/task/todo.dxoImpl';
 import { UpdateController } from './interfaceAdapters/task/update.controller';
 import { PrismaServiceImpl } from './interfaceAdapters/prisma.serviceImpl';
-import { PostController } from './interfaceAdapters/status/post.controller';
-import { StatusRepositoryImpl } from './interfaceAdapters/status/status.repositoryImpl';
+import { PostController } from './interfaceAdapters/task/post.controller';
 
 @Module({
   imports: [],
@@ -31,7 +30,6 @@ import { StatusRepositoryImpl } from './interfaceAdapters/status/status.reposito
       useClass: AdapterTodoDxoImpl,
     },
     { provide: 'PrismaService', useClass: PrismaServiceImpl },
-    { provide: 'StatusRepository', useClass: StatusRepositoryImpl },
   ],
 })
 export class TodoModule {}

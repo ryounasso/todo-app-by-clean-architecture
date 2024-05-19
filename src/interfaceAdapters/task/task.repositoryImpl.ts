@@ -1,11 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { TaskRepository } from './task.repository';
 import { AddTodoDto } from './addTodo.dto';
-import { TodoDto as UsecaseTodoDto } from '../../usecases/todo.dto';
 import { TodoDxo } from './todo.dxo';
-import { TodoDto } from './todo.dto';
 import { PrismaService } from '../prisma.service';
 import { UpdateTodoDto } from './updateTodo.dto';
+import { Task } from '../../entities/task';
 
 @Injectable()
 export class TaskRepositoryImpl implements TaskRepository {
@@ -14,48 +13,67 @@ export class TaskRepositoryImpl implements TaskRepository {
     @Inject('PrismaService') private readonly prisma: PrismaService,
   ) {}
 
-  async findById(id: number): Promise<UsecaseTodoDto> {
+  async findById(id: number): Promise<Task> {
     const task = await this.prisma.findTaskByUserId(id);
     if (!task) throw new Error('Task not found');
-    return this.todoDxo.convertToUsecaseTodoDto(
-      new TodoDto(task.id, task.title, id, task.createdAt),
+    return new Task(
+      task.id,
+      task.title,
+      task.userId,
+      task.status,
+      task.createdAt,
     );
   }
 
-  async findTasks(userId: number): Promise<UsecaseTodoDto[]> {
+  async findTasks(userId: number): Promise<Task[]> {
     const tasks = await this.prisma.findTasksByUserId(userId);
-    return tasks.map((task) => {
-      return this.todoDxo.convertToUsecaseTodoDto(
-        new TodoDto(task.id, task.title, task.userId, task.createdAt),
-      );
-    });
+    return tasks.map(
+      (task) =>
+        new Task(task.id, task.title, task.userId, task.status, task.createdAt),
+    );
   }
 
-  async insert(task: AddTodoDto): Promise<UsecaseTodoDto> {
+  async insert(task: AddTodoDto): Promise<Task> {
     const insertedTask = await this.prisma.insertTask(task);
-    return this.todoDxo.convertToUsecaseTodoDto(
-      new TodoDto(
-        insertedTask.id,
-        insertedTask.title,
-        insertedTask.userId,
-        insertedTask.createdAt,
-      ),
+    return new Task(
+      insertedTask.id,
+      insertedTask.title,
+      insertedTask.userId,
+      insertedTask.status,
+      insertedTask.createdAt,
     );
   }
 
-  async update(task: UpdateTodoDto): Promise<UsecaseTodoDto> {
-    const updatedTask = await this.prisma.updateTask({
-      id: task.getId(),
-      title: task.getTitle(),
-    });
+  async update(updateTodoDto: UpdateTodoDto): Promise<Task> {
+    const updateValue = this.createUpdateObjectExcludeNullValue(updateTodoDto);
+    if (!updateValue) throw new Error('Invalid update value');
+    const updatedTask = await this.prisma.updateTask(updateValue);
 
-    return this.todoDxo.convertToUsecaseTodoDto(
-      new TodoDto(
-        updatedTask.id,
-        updatedTask.title,
-        updatedTask.userId,
-        updatedTask.createdAt,
-      ),
+    return new Task(
+      updatedTask.id,
+      updatedTask.title,
+      updatedTask.userId,
+      updatedTask.status,
+      updatedTask.createdAt,
     );
+  }
+
+  private createUpdateObjectExcludeNullValue(updateTodoDto: UpdateTodoDto) {
+    if (updateTodoDto.getTitle() === null) {
+      if (updateTodoDto.getStatus() === null) {
+        return null;
+      } else {
+        return { id: updateTodoDto.getId(), status: updateTodoDto.getStatus() };
+      }
+    } else {
+      if (updateTodoDto.getStatus() === null) {
+        return { id: updateTodoDto.getId(), title: updateTodoDto.getTitle() };
+      }
+    }
+    return {
+      id: updateTodoDto.getId(),
+      title: updateTodoDto.getTitle(),
+      status: updateTodoDto.getStatus(),
+    };
   }
 }

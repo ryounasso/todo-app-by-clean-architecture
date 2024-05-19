@@ -1,11 +1,21 @@
 export class Task {
   private id: number;
   private title: string;
+  private userId: number;
+  private status: string;
   private createdAt: Date;
 
-  constructor(id: number, title: string, createdAt: Date) {
+  constructor(
+    id: number,
+    title: string,
+    userId: number,
+    status: string,
+    createdAt: Date,
+  ) {
     this.id = id;
     this.title = title;
+    this.userId = userId;
+    this.status = status;
     this.createdAt = createdAt;
   }
 
@@ -15,6 +25,14 @@ export class Task {
 
   getTitle(): string {
     return this.title;
+  }
+
+  getUserId(): number {
+    return this.userId;
+  }
+
+  getStatus(): string {
+    return this.status;
   }
 
   getCreatedAt(): Date {

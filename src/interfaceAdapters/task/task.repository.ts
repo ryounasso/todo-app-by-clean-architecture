@@ -1,13 +1,13 @@
 import { AddTodoDto } from './addTodo.dto';
-import { TodoDto as UsecaseTodoDto } from '../../usecases/todo.dto';
 import { UpdateTodoDto } from './updateTodo.dto';
+import { Task } from '../../entities/task';
 
 export interface TaskRepository {
-  findById(id: number): Promise<UsecaseTodoDto>;
+  findById(id: number): Promise<Task>;
 
-  findTasks(userId: number): Promise<UsecaseTodoDto[]>;
+  findTasks(userId: number): Promise<Task[]>;
 
-  insert(todo: AddTodoDto): Promise<UsecaseTodoDto>;
+  insert(todo: AddTodoDto): Promise<Task>;
 
-  update(todo: UpdateTodoDto): Promise<UsecaseTodoDto>;
+  update(todo: UpdateTodoDto): Promise<Task>;
 }
