@@ -1,10 +1,11 @@
-import { TaskRepository } from '../interfaceAdapters/task.repository';
+import { TaskRepository } from '../interfaceAdapters/task/task.repository';
 import { TodoService } from './todo.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { TodoDto } from './todo.dto';
 import { AddTodoDto } from './addTodo.dto';
 import { TodoDxo } from './todo.dxo';
 import { UpdateTodoDto } from './update.todo.dto';
+import { StartDto } from './start.dto';
 
 @Injectable()
 export class TodoServiceImpl implements TodoService {
@@ -14,12 +15,28 @@ export class TodoServiceImpl implements TodoService {
   ) {}
 
   async getTodoList(userId: number): Promise<TodoDto[]> {
-    return await this.taskRepository.findTasks(userId);
+    const taskList = await this.taskRepository.findTasks(userId);
+    return taskList.map((task) => {
+      return new TodoDto(
+        task.getId(),
+        task.getTitle(),
+        task.getUserId(),
+        task.getStatus(),
+        task.getCreatedAt(),
+      );
+    });
   }
 
   async addTodo(addTodoDto: AddTodoDto): Promise<TodoDto> {
-    return await this.taskRepository.insert(
+    const task = await this.taskRepository.insert(
       this.todoDxo.convertToAddTodoDto(addTodoDto),
+    );
+    return new TodoDto(
+      task.getId(),
+      task.getTitle(),
+      task.getUserId(),
+      task.getStatus(),
+      task.getCreatedAt(),
     );
   }
 
@@ -30,13 +47,19 @@ export class TodoServiceImpl implements TodoService {
       ),
     );
 
-    return this.todoDxo.convertToTodoDto(
-      new TodoDto(
-        task.getId(),
-        task.getTitle(),
-        task.getUserId(),
-        task.getCreatedAt(),
-      ),
+    return new TodoDto(
+      task.getId(),
+      task.getTitle(),
+      task.getUserId(),
+      task.getStatus(),
+      task.getCreatedAt(),
     );
+  }
+
+  async startTodo(id: number): Promise<StartDto> {
+    const task = await this.taskRepository.update(
+      new UpdateTodoDto(id, undefined, 'doing'),
+    );
+    return new StartDto(task.getId(), task.getStatus());
   }
 }

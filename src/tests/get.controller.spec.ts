@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GetController } from '../interfaceAdapters/controllers/get.controller';
+import { GetController } from '../interfaceAdapters/task/get.controller';
 import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
-import { GetOutputForm } from '../interfaceAdapters/controllers/get.outputform';
+import { GetOutputForm } from '../interfaceAdapters/task/get.outputform';
 import { TodoDto } from '../usecases/todo.dto';
 import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
-import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
+import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/task/todo.dxoImpl';
 
 const mockTaskRepository = () => ({
   findTasks: jest.fn(),
@@ -58,8 +58,8 @@ const createExpectedGetOutputForm = (): GetOutputForm[] => {
 
 const createMockTodoDto = (): TodoDto[] => {
   return [
-    new TodoDto(1, 'Task 1', user_id, new Date()),
-    new TodoDto(2, 'Task 2', user_id, new Date()),
-    new TodoDto(3, 'Task 3', user_id, new Date()),
+    new TodoDto(1, 'Task 1', user_id, 'ready', new Date()),
+    new TodoDto(2, 'Task 2', user_id, 'ready', new Date()),
+    new TodoDto(3, 'Task 3', user_id, 'ready', new Date()),
   ];
 };

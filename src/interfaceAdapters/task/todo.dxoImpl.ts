@@ -1,5 +1,5 @@
 import { TodoDto } from './todo.dto';
-import { TodoDto as UsecaseDto } from '../usecases/todo.dto';
+import { TodoDto as UsecaseDto } from '../../usecases/todo.dto';
 
 export class TodoDxoImpl implements TodoDxoImpl {
   convertToUsecaseTodoDto(todoDto: TodoDto): UsecaseDto {
@@ -7,6 +7,7 @@ export class TodoDxoImpl implements TodoDxoImpl {
       todoDto.getId(),
       todoDto.getTitle(),
       todoDto.getUserId(),
+      todoDto.getStatus(),
       todoDto.getCreatedAt(),
     );
   }

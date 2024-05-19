@@ -11,13 +11,13 @@ import { AddInputForm } from './add.inputform';
 import { AddTodoDto } from 'src/usecases/addTodo.dto';
 import { AddOutputForm } from './add.outputputform';
 
-@Controller('todo')
+@Controller('todo.json')
 export class AddController {
   constructor(
     @Inject('TodoService') private readonly todoService: TodoService,
   ) {}
 
-  @Post('add.json')
+  @Post()
   @UsePipes(new ValidationPipe({ transform: true }))
   async run(@Body() body: AddInputForm): Promise<AddOutputForm> {
     const addedTodo = await this.todoService.addTodo(

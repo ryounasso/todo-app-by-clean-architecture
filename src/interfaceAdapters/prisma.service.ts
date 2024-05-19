@@ -1,9 +1,16 @@
 import { Task } from '@prisma/client';
-import { AddTodoDto } from './addTodo.dto';
+import { AddTodoDto } from './task/addTodo.dto';
+import { StatusType } from '../entities/status.type';
 
 export type UpdateTodo = {
   id: number;
-  title: string;
+  title?: string;
+  status?: string;
+};
+
+export type UpdateStatus = {
+  taskId: number;
+  status: StatusType;
 };
 
 export interface PrismaService {

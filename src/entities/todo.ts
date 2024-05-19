@@ -1,22 +1,27 @@
-export class Task {
+import { StatusType } from './status.type';
+
+export class Todo {
   private id: number;
   private title: string;
+  private status: StatusType;
   private userId: number;
-  private status: string;
   private createdAt: Date;
+  private finishedAt: Date | null;
 
   constructor(
     id: number,
     title: string,
+    status: StatusType,
     userId: number,
-    status: string,
     createdAt: Date,
+    finishedAt: Date | null,
   ) {
     this.id = id;
     this.title = title;
-    this.userId = userId;
     this.status = status;
+    this.userId = userId;
     this.createdAt = createdAt;
+    this.finishedAt = finishedAt;
   }
 
   getId(): number {
@@ -27,23 +32,19 @@ export class Task {
     return this.title;
   }
 
-  getUserId(): number {
-    return this.userId;
+  getStatus(): StatusType {
+    return this.status;
   }
 
-  getStatus(): string {
-    return this.status;
+  getUserId(): number {
+    return this.userId;
   }
 
   getCreatedAt(): Date {
     return this.createdAt;
   }
 
-  setTitle(title: string): void {
-    this.title = title;
-  }
-
-  setCreatedAt(createdAt: Date): void {
-    this.createdAt = createdAt;
+  getFinishedAt(): Date | null {
+    return this.finishedAt;
   }
 }

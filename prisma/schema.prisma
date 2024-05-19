@@ -25,7 +25,9 @@ model User {
 model Task {
   id        Int      @default(autoincrement()) @id
   userId    Int
-  user    User @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
   title     String
+  status    String   @default("ready")
   createdAt DateTime @default(now())
+  finishedAt DateTime?
 }

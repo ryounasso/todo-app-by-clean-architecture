@@ -3,7 +3,7 @@ import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
 import { TodoDto } from '../usecases/todo.dto';
 import { AddTodoDto } from '../usecases/addTodo.dto';
 import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
-import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
+import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/task/todo.dxoImpl';
 import { UpdateTodoDto } from '../usecases/update.todo.dto';
 
 const mockTaskRepository = () => ({
@@ -41,8 +41,9 @@ describe('TodoService', () => {
       result.forEach((task, index) => {
         expect(task).toEqual({
           id: expected[index].id,
-          user_id: expected[index].user_id,
+          userId: expected[index].userId,
           title: expected[index].title,
+          status: expected[index].status,
           createdAt: expect.anything(),
         });
       });
@@ -80,27 +81,27 @@ describe('TodoService', () => {
 
 const createExpectedTodoDtos = (): TodoDto[] => {
   return [
-    new TodoDto(1, 'Task 1', user_id, new Date()),
-    new TodoDto(2, 'Task 2', user_id, new Date()),
-    new TodoDto(3, 'Task 3', user_id, new Date()),
+    new TodoDto(1, 'Task 1', user_id, 'ready', new Date()),
+    new TodoDto(2, 'Task 2', user_id, 'ready', new Date()),
+    new TodoDto(3, 'Task 3', user_id, 'ready', new Date()),
   ];
 };
 
 const createMockTodoDtos = (): TodoDto[] => {
   return [
-    new TodoDto(1, 'Task 1', user_id, new Date()),
-    new TodoDto(2, 'Task 2', user_id, new Date()),
-    new TodoDto(3, 'Task 3', user_id, new Date()),
+    new TodoDto(1, 'Task 1', user_id, 'ready', new Date()),
+    new TodoDto(2, 'Task 2', user_id, 'ready', new Date()),
+    new TodoDto(3, 'Task 3', user_id, 'ready', new Date()),
   ];
 };
 
 const createMockInsertedTask = (user_id: number, title: string): TodoDto => {
-  return new TodoDto(1, title, user_id, new Date());
+  return new TodoDto(1, title, user_id, 'ready', new Date());
 };
 
 const createExpectedTodoDto = (
   title: string = 'Task 1',
   createdAt: Date = new Date(),
 ) => {
-  return new TodoDto(1, title, user_id, createdAt);
+  return new TodoDto(1, title, user_id, 'ready', createdAt);
 };

@@ -1,4 +1,5 @@
 import { AddTodoDto } from './addTodo.dto';
+import { StartDto } from './start.dto';
 import { TodoDto } from './todo.dto';
 import { UpdateTodoDto } from './update.todo.dto';
 
@@ -8,4 +9,6 @@ export interface TodoService {
   addTodo(addTodoDto: AddTodoDto): Promise<TodoDto>;
 
   setTodo(todoDto: UpdateTodoDto): Promise<TodoDto>;
+
+  startTodo(id: number): Promise<StartDto>;
 }
