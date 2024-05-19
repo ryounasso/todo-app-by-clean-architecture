@@ -32,9 +32,9 @@ describe('GetController', () => {
   });
 
   describe('root', () => {
-    it('should return Task List', () => {
+    it('should return Task List', async () => {
       taskRepository.findTasks.mockReturnValue(createMockTodoDto());
-      const result = getController.run(user_id);
+      const result = await getController.run(user_id.toString());
       const expected = createExpectedGetOutputForm();
       result.forEach((task, index) => {
         expect(task).toEqual({
