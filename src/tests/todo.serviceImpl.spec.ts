@@ -34,9 +34,9 @@ describe('TodoService', () => {
   });
 
   describe('root', () => {
-    it('should return Task List', () => {
+    it('should return Task List', async () => {
       taskRepository.findTasks.mockReturnValue(createMockTodoDtos());
-      const result = taskService.getTodoList(user_id);
+      const result = await taskService.getTodoList(user_id);
       const expected = createExpectedTodoDtos();
       result.forEach((task, index) => {
         expect(task).toEqual({
@@ -48,18 +48,18 @@ describe('TodoService', () => {
       });
     });
 
-    it('should return created Todo', () => {
+    it('should return created Todo', async () => {
       const title = 'Task 1';
 
       taskRepository.insert.mockReturnValue(
         createMockInsertedTask(user_id, title),
       );
-      const result = taskService.addTodo(new AddTodoDto(user_id, title));
+      const result = await taskService.addTodo(new AddTodoDto(user_id, title));
       const expected = createExpectedTodoDto();
       expect(result).toEqual(expected);
     });
 
-    it('should update Todo', () => {
+    it('should update Todo', async () => {
       const title = 'Task 1';
       const id = 1;
       const createdAt = new Date();
@@ -71,7 +71,7 @@ describe('TodoService', () => {
       taskRepository.update.mockReturnValue(
         createExpectedTodoDto(title, createdAt),
       );
-      const result = taskService.setTodo(new UpdateTodoDto(id, title, user_id));
+      const result = await taskService.setTodo(new UpdateTodoDto(id, title));
       const expected = createExpectedTodoDto(undefined, createdAt);
       expect(result).toEqual(expected);
     });

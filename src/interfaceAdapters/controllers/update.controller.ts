@@ -19,9 +19,9 @@ export class UpdateController {
 
   @Put('update.json')
   @UsePipes(new ValidationPipe({ transform: true }))
-  run(@Body() body: UpdateInputForm): UpdateOutputForm {
-    const todoDto = this.todoService.setTodo(
-      new UpdateTodoDto(body.getId(), body.getTitle(), body.getUserId()),
+  async run(@Body() body: UpdateInputForm): Promise<UpdateOutputForm> {
+    const todoDto = await this.todoService.setTodo(
+      new UpdateTodoDto(body.getId(), body.getTitle()),
     );
     return new UpdateOutputForm(
       todoDto.getId(),

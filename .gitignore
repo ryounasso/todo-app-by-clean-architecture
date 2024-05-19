@@ -6,3 +6,9 @@ dist
 
 # OS
 .DS_Store
+
+# env
+.env
+
+# prisma
+prisma/migrations

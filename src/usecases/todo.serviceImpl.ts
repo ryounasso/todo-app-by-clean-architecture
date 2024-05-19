@@ -13,29 +13,30 @@ export class TodoServiceImpl implements TodoService {
     @Inject('UsecaseTodoDxo') private readonly todoDxo: TodoDxo,
   ) {}
 
-  getTodoList(userId: number): TodoDto[] {
-    return this.taskRepository.findTasks(userId);
+  async getTodoList(userId: number): Promise<TodoDto[]> {
+    return await this.taskRepository.findTasks(userId);
   }
 
-  addTodo(addTodoDto: AddTodoDto): TodoDto {
-    return this.taskRepository.insert(
+  async addTodo(addTodoDto: AddTodoDto): Promise<TodoDto> {
+    return await this.taskRepository.insert(
       this.todoDxo.convertToAddTodoDto(addTodoDto),
     );
   }
 
-  setTodo = (updateTodoDto: UpdateTodoDto): TodoDto => {
-    const createdAt = this.taskRepository
-      .findById(updateTodoDto.getId())
-      .getCreatedAt();
-    return this.taskRepository.update(
-      this.todoDxo.convertToAddTodoDtoFromTodoDto(
-        new TodoDto(
-          updateTodoDto.getId(),
-          updateTodoDto.getTitle(),
-          updateTodoDto.getUserId(),
-          createdAt,
-        ),
+  async setTodo(updateTodoDto: UpdateTodoDto): Promise<TodoDto> {
+    const task = await this.taskRepository.update(
+      this.todoDxo.convertToUpdateTodoDto(
+        new UpdateTodoDto(updateTodoDto.getId(), updateTodoDto.getTitle()),
       ),
     );
-  };
+
+    return this.todoDxo.convertToTodoDto(
+      new TodoDto(
+        task.getId(),
+        task.getTitle(),
+        task.getUserId(),
+        task.getCreatedAt(),
+      ),
+    );
+  }
 }

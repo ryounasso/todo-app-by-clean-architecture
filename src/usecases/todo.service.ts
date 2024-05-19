@@ -3,9 +3,9 @@ import { TodoDto } from './todo.dto';
 import { UpdateTodoDto } from './update.todo.dto';
 
 export interface TodoService {
-  getTodoList(userId: number): TodoDto[];
+  getTodoList(userId: number): Promise<TodoDto[]>;
 
-  addTodo(addTodoDto: AddTodoDto): TodoDto;
+  addTodo(addTodoDto: AddTodoDto): Promise<TodoDto>;
 
-  setTodo(todoDto: UpdateTodoDto): TodoDto;
+  setTodo(todoDto: UpdateTodoDto): Promise<TodoDto>;
 }

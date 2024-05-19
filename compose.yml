@@ -3,8 +3,38 @@ services:
   app:
     build: .
     tty: true
+    networks:
+      - app_network
     ports:
       - 3000:3000
+      - 5555:5555
     volumes:
       - .:/app
-    command: pnpm start
+    depends_on:
+      - db
+    command: bash -c "pnpm start & npx prisma studio"
+  db:
+    image: postgres:16
+    hostname: db
+    env_file:
+      - .env
+    networks:
+      - app_network
+    environment:
+      - TZ=Asia/Tokyo
+      - POSTGRES_DB=$DB_NAME
+      - POSTGRES_USER=$DB_USER
+      - POSTGRES_PASSWORD=$DB_PASS
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  db_data:
