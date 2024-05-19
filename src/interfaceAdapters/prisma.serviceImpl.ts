@@ -12,6 +12,10 @@ export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {
     return await this.task.findUnique({ where: { id } });
   }
 
+  async findTasksByUserId(userId: number) {
+    return await this.task.findMany({ where: { userId: userId } });
+  }
+
   async updateTask(task: UpdateTodo) {
     return await this.task.update({
       where: { id: task.id },

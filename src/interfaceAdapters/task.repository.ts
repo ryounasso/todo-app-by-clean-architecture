@@ -6,7 +6,7 @@ import { UpdateTodoDto } from './updateTodo.dto';
 export interface TaskRepository {
   findById(id: number): Promise<TodoDto>;
 
-  findTasks(userId: number): TodoDto[];
+  findTasks(userId: number): Promise<TodoDto[]>;
 
   insert(todo: AddTodoDto): UsecaseTodoDto;
 

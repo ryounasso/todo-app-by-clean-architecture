@@ -13,8 +13,8 @@ export class TodoServiceImpl implements TodoService {
     @Inject('UsecaseTodoDxo') private readonly todoDxo: TodoDxo,
   ) {}
 
-  getTodoList(userId: number): TodoDto[] {
-    return this.taskRepository.findTasks(userId);
+  async getTodoList(userId: number): Promise<TodoDto[]> {
+    return await this.taskRepository.findTasks(userId);
   }
 
   addTodo(addTodoDto: AddTodoDto): TodoDto {

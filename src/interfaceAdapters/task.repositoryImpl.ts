@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { mockInsertedTask, mockTaskList } from '../drivers/mock/task';
+import { mockInsertedTask } from '../drivers/mock/task';
 import { TaskRepository } from './task.repository';
 import { AddTodoDto } from './addTodo.dto';
 import { TodoDto as UsecaseTodoDto } from '../usecases/todo.dto';
@@ -23,11 +23,11 @@ export class TaskRepositoryImpl implements TaskRepository {
     );
   }
 
-  findTasks(userId: number): UsecaseTodoDto[] {
-    const tasks = mockTaskList();
+  async findTasks(userId: number): Promise<UsecaseTodoDto[]> {
+    const tasks = await this.prisma.findTasksByUserId(userId);
     return tasks.map((task) => {
       return this.todoDxo.convertToUsecaseTodoDto(
-        new TodoDto(task.getId(), task.getTitle(), userId, task.getCreatedAt()),
+        new TodoDto(task.id, task.title, task.userId, task.createdAt),
       );
     });
   }

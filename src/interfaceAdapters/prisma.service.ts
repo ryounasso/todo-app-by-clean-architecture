@@ -10,5 +10,7 @@ export interface PrismaService {
 
   findTaskByUserId(id: number): Promise<Task>;
 
+  findTasksByUserId(userId: number): Promise<Task[]>;
+
   updateTask(task: UpdateTodo): Promise<Task>;
 }
