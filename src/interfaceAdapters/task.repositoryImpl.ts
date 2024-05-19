@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { mockInsertedTask } from '../drivers/mock/task';
 import { TaskRepository } from './task.repository';
 import { AddTodoDto } from './addTodo.dto';
 import { TodoDto as UsecaseTodoDto } from '../usecases/todo.dto';
@@ -32,14 +31,14 @@ export class TaskRepositoryImpl implements TaskRepository {
     });
   }
 
-  insert(task: AddTodoDto): UsecaseTodoDto {
-    const insertedTask = mockInsertedTask(task);
+  async insert(task: AddTodoDto): Promise<UsecaseTodoDto> {
+    const insertedTask = await this.prisma.insertTask(task);
     return this.todoDxo.convertToUsecaseTodoDto(
       new TodoDto(
-        insertedTask.getId(),
-        insertedTask.getTitle(),
-        task.getUserId(),
-        insertedTask.getCreatedAt(),
+        insertedTask.id,
+        insertedTask.title,
+        insertedTask.userId,
+        insertedTask.createdAt,
       ),
     );
   }

@@ -19,8 +19,8 @@ export class AddController {
 
   @Post('add.json')
   @UsePipes(new ValidationPipe({ transform: true }))
-  run(@Body() body: AddInputForm): AddOutputForm {
-    const addedTodo = this.todoService.addTodo(
+  async run(@Body() body: AddInputForm): Promise<AddOutputForm> {
+    const addedTodo = await this.todoService.addTodo(
       new AddTodoDto(body.getUserId(), body.getTitle()),
     );
     return new AddOutputForm(

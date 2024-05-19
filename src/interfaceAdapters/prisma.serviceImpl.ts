@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { UpdateTodo } from './prisma.service';
+import { AddTodoDto } from './addTodo.dto';
 
 @Injectable()
 export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {
@@ -14,6 +15,12 @@ export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {
 
   async findTasksByUserId(userId: number) {
     return await this.task.findMany({ where: { userId: userId } });
+  }
+
+  async insertTask(addTodoDto: AddTodoDto) {
+    return await this.task.create({
+      data: { title: addTodoDto.getTitle(), userId: addTodoDto.getUserId() },
+    });
   }
 
   async updateTask(task: UpdateTodo) {

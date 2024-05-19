@@ -17,8 +17,8 @@ export class TodoServiceImpl implements TodoService {
     return await this.taskRepository.findTasks(userId);
   }
 
-  addTodo(addTodoDto: AddTodoDto): TodoDto {
-    return this.taskRepository.insert(
+  async addTodo(addTodoDto: AddTodoDto): Promise<TodoDto> {
+    return await this.taskRepository.insert(
       this.todoDxo.convertToAddTodoDto(addTodoDto),
     );
   }
