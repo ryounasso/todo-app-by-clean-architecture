@@ -74,9 +74,13 @@ Nest is [MIT licensed](LICENSE).
 
 ## Commands
 
-### Get Task LIst
+### Get Task List
 
 `curl localhost:3000/todo/list.json?user_id=1`
+
+#### Exclude Done Task
+
+`curl "localhost:3000/todo/list.json?user_id=1&exclude_done_task=true" | jq`
 
 ### Add Task
 

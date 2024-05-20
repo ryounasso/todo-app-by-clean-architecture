@@ -15,8 +15,17 @@ export class TodoServiceImpl implements TodoService {
     @Inject('UsecaseTodoDxo') private readonly todoDxo: TodoDxo,
   ) {}
 
-  async getTodoList(userId: number): Promise<TodoDto[]> {
-    const taskList = await this.taskRepository.findTasks(userId);
+  async getTodoList(
+    userId: number,
+    exclude_done_task?: boolean,
+  ): Promise<TodoDto[]> {
+    let taskList;
+    if (exclude_done_task) {
+      taskList = await this.taskRepository.findTasksExcludeDone(userId);
+    } else {
+      taskList = await this.taskRepository.findTasks(userId);
+    }
+
     return taskList.map((task) => {
       return new TodoDto(
         task.getId(),

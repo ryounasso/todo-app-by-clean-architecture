@@ -5,7 +5,7 @@ import { TodoDto } from './todo.dto';
 import { UpdateTodoDto } from './update.todo.dto';
 
 export interface TodoService {
-  getTodoList(userId: number): Promise<TodoDto[]>;
+  getTodoList(userId: number, exclude_done_task?: boolean): Promise<TodoDto[]>;
 
   addTodo(addTodoDto: AddTodoDto): Promise<TodoDto>;
 

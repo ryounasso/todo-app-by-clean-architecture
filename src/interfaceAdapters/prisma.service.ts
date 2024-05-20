@@ -21,6 +21,8 @@ export interface PrismaService {
 
   findTasksByUserId(userId: number): Promise<Task[]>;
 
+  findTasksExcludeDone(userId: number): Promise<Task[]>;
+
   insertTask(addTodoDto: AddTodoDto): Promise<Task>;
 
   updateTask(task: UpdateTodo): Promise<Task>;

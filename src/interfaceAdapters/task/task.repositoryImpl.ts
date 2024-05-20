@@ -33,6 +33,14 @@ export class TaskRepositoryImpl implements TaskRepository {
     );
   }
 
+  async findTasksExcludeDone(userId: number): Promise<Task[]> {
+    const tasks = await this.prisma.findTasksExcludeDone(userId);
+    return tasks.map(
+      (task) =>
+        new Task(task.id, task.title, task.userId, task.status, task.createdAt),
+    );
+  }
+
   async insert(task: AddTodoDto): Promise<Task> {
     const insertedTask = await this.prisma.insertTask(task);
     return new Task(

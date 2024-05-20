@@ -7,6 +7,8 @@ export interface TaskRepository {
 
   findTasks(userId: number): Promise<Task[]>;
 
+  findTasksExcludeDone(userId: number): Promise<Task[]>;
+
   insert(todo: AddTodoDto): Promise<Task>;
 
   update(todo: UpdateTodoDto): Promise<Task>;
