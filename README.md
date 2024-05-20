@@ -82,6 +82,10 @@ Nest is [MIT licensed](LICENSE).
 
 `curl "localhost:3000/todo/list.json?user_id=1&exclude_done_task=true" | jq`
 
+#### Specify get fields
+
+`curl -X GET 'localhost:3000/todo/list.json?user_id=1&fields=title' | jq`
+
 ### Add Task
 
 `curl -X POST localhost:3000/todo.json -H "Content-Type: application/json" -d '{"title": "テストA", "user_id": 1}' | jq`

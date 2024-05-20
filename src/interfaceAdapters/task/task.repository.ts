@@ -9,6 +9,16 @@ export interface TaskRepository {
 
   findTasksExcludeDone(userId: number): Promise<Task[]>;
 
+  findTaskbySpecifiedFields(
+    id: number,
+    spesifiedFilelds: (keyof Task)[],
+  ): Promise<Task[]>;
+
+  findTaskbySpecifiedFieldsAndExcludeDoneTask(
+    id: number,
+    spesifiedFilelds: (keyof Task)[],
+  ): Promise<Task[]>;
+
   insert(todo: AddTodoDto): Promise<Task>;
 
   update(todo: UpdateTodoDto): Promise<Task>;
