@@ -6,6 +6,7 @@ import { AddTodoDto } from './addTodo.dto';
 import { TodoDxo } from './todo.dxo';
 import { UpdateTodoDto } from './update.todo.dto';
 import { StartDto } from './start.dto';
+import { DoneDto } from './done.dto';
 
 @Injectable()
 export class TodoServiceImpl implements TodoService {
@@ -61,5 +62,12 @@ export class TodoServiceImpl implements TodoService {
       new UpdateTodoDto(id, undefined, 'doing'),
     );
     return new StartDto(task.getId(), task.getStatus());
+  }
+
+  async done(id: number): Promise<DoneDto> {
+    const task = await this.taskRepository.update(
+      new UpdateTodoDto(id, undefined, 'done', new Date()),
+    );
+    return new DoneDto(task.getId(), task.getStatus());
   }
 }

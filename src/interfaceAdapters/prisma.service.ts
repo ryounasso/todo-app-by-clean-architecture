@@ -6,6 +6,7 @@ export type UpdateTodo = {
   id: number;
   title?: string;
   status?: string;
+  finishiedAt?: Date;
 };
 
 export type UpdateStatus = {

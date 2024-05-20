@@ -89,3 +89,7 @@ Nest is [MIT licensed](LICENSE).
 ### Start Task
 
 `curl -X POST localhost:3000/todo/start.json -H 'Content-Type: application/json' -d '{"id": 1}' | jq`
+
+### Done Task
+
+`curl -X POST localhost:3000/todo/done.json -H 'Content-Type: application/json' -d '{"id": 1}' | jq`
