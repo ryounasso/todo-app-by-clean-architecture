@@ -7,6 +7,7 @@ import { TodoDxo } from './todo.dxo';
 import { UpdateTodoDto } from './update.todo.dto';
 import { StartDto } from './start.dto';
 import { DoneDto } from './done.dto';
+import { Task } from '../entities/task';
 
 @Injectable()
 export class TodoServiceImpl implements TodoService {
@@ -17,6 +18,7 @@ export class TodoServiceImpl implements TodoService {
 
   async getTodoList(
     userId: number,
+    fields: (keyof Task)[],
     exclude_done_task?: boolean,
   ): Promise<TodoDto[]> {
     let taskList;
@@ -24,6 +26,21 @@ export class TodoServiceImpl implements TodoService {
       taskList = await this.taskRepository.findTasksExcludeDone(userId);
     } else {
       taskList = await this.taskRepository.findTasks(userId);
+    }
+
+    if (fields.length > 0) {
+      if (exclude_done_task) {
+        taskList =
+          await this.taskRepository.findTaskbySpecifiedFieldsAndExcludeDoneTask(
+            userId,
+            fields,
+          );
+      } else {
+        taskList = await this.taskRepository.findTaskbySpecifiedFields(
+          userId,
+          fields,
+        );
+      }
     }
 
     return taskList.map((task) => {

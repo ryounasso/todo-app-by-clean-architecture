@@ -1,6 +1,7 @@
-import { Task } from '@prisma/client';
+import { PrismaClient, Task } from '@prisma/client';
 import { AddTodoDto } from './task/addTodo.dto';
 import { StatusType } from '../entities/status.type';
+import { Task as TaskEntity } from '../entities/task';
 
 export type UpdateTodo = {
   id: number;
@@ -14,6 +15,11 @@ export type UpdateStatus = {
   status: StatusType;
 };
 
+export type Models = Extract<
+  PrismaClient[keyof PrismaClient],
+  { fields: unknown }
+>;
+
 export interface PrismaService {
   onModuleInit(): void;
 
@@ -22,6 +28,16 @@ export interface PrismaService {
   findTasksByUserId(userId: number): Promise<Task[]>;
 
   findTasksExcludeDone(userId: number): Promise<Task[]>;
+
+  findTaskExcludeSpecifiedFields(
+    id: number,
+    spesifiedFilelds: (keyof TaskEntity)[],
+  ): Promise<Task[]>;
+
+  findTaskExcludeSpecifiedFieldsAndExcludeDoneTask(
+    id: number,
+    spesifiedFilelds: (keyof TaskEntity)[],
+  ): Promise<Task[]>;
 
   insertTask(addTodoDto: AddTodoDto): Promise<Task>;
 

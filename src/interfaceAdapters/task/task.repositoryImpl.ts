@@ -41,6 +41,35 @@ export class TaskRepositoryImpl implements TaskRepository {
     );
   }
 
+  async findTaskbySpecifiedFields(
+    id: number,
+    spesifiedFilelds: (keyof Task)[],
+  ): Promise<Task[]> {
+    const tasks = await this.prisma.findTaskExcludeSpecifiedFields(
+      id,
+      spesifiedFilelds,
+    );
+    return tasks.map(
+      (task) =>
+        new Task(task.id, task.title, task.userId, task.status, task.createdAt),
+    );
+  }
+
+  async findTaskbySpecifiedFieldsAndExcludeDoneTask(
+    id: number,
+    spesifiedFilelds: (keyof Task)[],
+  ): Promise<Task[]> {
+    const tasks =
+      await this.prisma.findTaskExcludeSpecifiedFieldsAndExcludeDoneTask(
+        id,
+        spesifiedFilelds,
+      );
+    return tasks.map(
+      (task) =>
+        new Task(task.id, task.title, task.userId, task.status, task.createdAt),
+    );
+  }
+
   async insert(task: AddTodoDto): Promise<Task> {
     const insertedTask = await this.prisma.insertTask(task);
     return new Task(
