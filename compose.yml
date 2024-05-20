@@ -12,7 +12,7 @@ services:
       - .:/app
     depends_on:
       - db
-    command: bash -c "pnpm start & npx prisma studio"
+    command: bash -c "pnpm run start & npx prisma studio"
   db:
     image: postgres:16
     hostname: db

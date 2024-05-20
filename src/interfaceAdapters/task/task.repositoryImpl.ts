@@ -33,6 +33,14 @@ export class TaskRepositoryImpl implements TaskRepository {
     );
   }
 
+  async findTasksExcludeDone(userId: number): Promise<Task[]> {
+    const tasks = await this.prisma.findTasksExcludeDone(userId);
+    return tasks.map(
+      (task) =>
+        new Task(task.id, task.title, task.userId, task.status, task.createdAt),
+    );
+  }
+
   async insert(task: AddTodoDto): Promise<Task> {
     const insertedTask = await this.prisma.insertTask(task);
     return new Task(
@@ -59,21 +67,19 @@ export class TaskRepositoryImpl implements TaskRepository {
   }
 
   private createUpdateObjectExcludeNullValue(updateTodoDto: UpdateTodoDto) {
-    if (updateTodoDto.getTitle() === null) {
-      if (updateTodoDto.getStatus() === null) {
-        return null;
-      } else {
-        return { id: updateTodoDto.getId(), status: updateTodoDto.getStatus() };
-      }
-    } else {
-      if (updateTodoDto.getStatus() === null) {
-        return { id: updateTodoDto.getId(), title: updateTodoDto.getTitle() };
-      }
+    const obj: {
+      id: number;
+      title?: string;
+      status?: string;
+      finishedAt?: Date;
+    } = { id: updateTodoDto.getId() };
+    if (updateTodoDto.getTitle() !== null) obj.title = updateTodoDto.getTitle();
+    if (updateTodoDto.getStatus() !== null) {
+      obj.status = updateTodoDto.getStatus();
     }
-    return {
-      id: updateTodoDto.getId(),
-      title: updateTodoDto.getTitle(),
-      status: updateTodoDto.getStatus(),
-    };
+    if (updateTodoDto.getFinishiedAt() !== null)
+      obj.finishedAt = updateTodoDto.getFinishiedAt();
+
+    return obj;
   }
 }

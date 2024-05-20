@@ -9,11 +9,15 @@ export class GetController {
   ) {}
 
   @Get('list.json')
-  async run(@Query('user_id') user_id: string): Promise<GetOutputForm[]> {
+  async run(
+    @Query('user_id') user_id: string,
+    @Query('exclude_done_task') exclude_done_task?: boolean,
+  ): Promise<GetOutputForm[]> {
     if (!user_id) throw new Error('user_id is required');
 
     const taskDto = await this.todoService.getTodoList(
       Number.parseInt(user_id),
+      exclude_done_task,
     );
     return taskDto.map((task) => {
       return new GetOutputForm(
