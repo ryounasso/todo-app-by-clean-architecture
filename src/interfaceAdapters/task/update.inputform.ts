@@ -2,20 +2,20 @@ import { IsNotEmpty } from 'class-validator';
 
 export class UpdateInputForm {
   @IsNotEmpty()
-  private id: number;
+  private id: string;
 
   @IsNotEmpty()
   private user_id: number;
 
   private title: string;
 
-  constructor(id: number, user_id: number, title: string) {
+  constructor(id: string, user_id: number, title: string) {
     this.id = id;
     this.user_id = user_id;
     this.title = title;
   }
 
-  getId(): number {
+  getId(): string {
     return this.id;
   }
 
