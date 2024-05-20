@@ -19,14 +19,16 @@ export class PostController {
   @Post('start.json')
   @UsePipes(new ValidationPipe({ transform: true }))
   async run(@Body() body: UpdateInputForm): Promise<UpdateOutputForm> {
-    const todoDto = await this.todoService.startTodo(body.getId());
+    const todoDto = await this.todoService.startTodo(
+      Number.parseInt(body.getId()),
+    );
     return new UpdateOutputForm(todoDto.getTaskId(), todoDto.getStatus());
   }
 
   @Post('done.json')
   @UsePipes(new ValidationPipe({ transform: true }))
   async done(@Body() body: UpdateInputForm): Promise<UpdateOutputForm> {
-    const todoDto = await this.todoService.done(body.getId());
+    const todoDto = await this.todoService.done(Number.parseInt(body.getId()));
     return new UpdateOutputForm(todoDto.getTaskId(), todoDto.getStatus());
   }
 }
