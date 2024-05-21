@@ -1,13 +1,13 @@
 import { PrismaClient, Task } from '@prisma/client';
 import { AddTodoDto } from '../interfaceAdapters/repositories/addTodo.dto';
 import { StatusType } from '../entities/status.type';
-import { Task as TaskEntity } from '../entities/task';
+import { Todo } from '../entities/todo';
 
 export type UpdateTodo = {
   id: number;
   title?: string;
   status?: string;
-  finishiedAt?: Date;
+  finishedAt?: Date;
 };
 
 export type UpdateStatus = {
@@ -31,12 +31,12 @@ export interface PrismaService {
 
   findTaskExcludeSpecifiedFields(
     id: number,
-    spesifiedFilelds: (keyof TaskEntity)[],
+    spesifiedFilelds: (keyof Todo)[],
   ): Promise<Task[]>;
 
   findTaskExcludeSpecifiedFieldsAndExcludeDoneTask(
     id: number,
-    spesifiedFilelds: (keyof TaskEntity)[],
+    spesifiedFilelds: (keyof Todo)[],
   ): Promise<Task[]>;
 
   insertTask(addTodoDto: AddTodoDto): Promise<Task>;

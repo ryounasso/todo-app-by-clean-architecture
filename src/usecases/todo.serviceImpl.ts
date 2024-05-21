@@ -7,7 +7,7 @@ import { TodoDxo } from './todo.dxo';
 import { UpdateTodoDto } from './update.todo.dto';
 import { StartDto } from './start.dto';
 import { DoneDto } from './done.dto';
-import { Task } from '../entities/task';
+import { Todo } from '../entities/todo';
 
 @Injectable()
 export class TodoServiceImpl implements TodoService {
@@ -18,7 +18,7 @@ export class TodoServiceImpl implements TodoService {
 
   async getTodoList(
     userId: number,
-    fields: (keyof Task)[],
+    fields: (keyof Todo)[],
     exclude_done_task?: boolean,
   ): Promise<TodoDto[]> {
     let taskList;
@@ -50,6 +50,7 @@ export class TodoServiceImpl implements TodoService {
         task.getUserId(),
         task.getStatus(),
         task.getCreatedAt(),
+        task.getFinishedAt(),
       );
     });
   }
@@ -64,6 +65,7 @@ export class TodoServiceImpl implements TodoService {
       task.getUserId(),
       task.getStatus(),
       task.getCreatedAt(),
+      task.getFinishedAt(),
     );
   }
 
@@ -80,6 +82,7 @@ export class TodoServiceImpl implements TodoService {
       task.getUserId(),
       task.getStatus(),
       task.getCreatedAt(),
+      task.getFinishedAt(),
     );
   }
 

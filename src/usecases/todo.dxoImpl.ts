@@ -14,6 +14,7 @@ export class TodoDxoImpl implements TodoDxo {
       todoDto.getUserId(),
       todoDto.getStatus(),
       todoDto.getCreatedAt(),
+      todoDto.getFinishedAt(),
     );
   }
 

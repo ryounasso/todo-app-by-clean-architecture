@@ -2,13 +2,13 @@ export class UpdateTodoDto {
   id: number;
   title?: string;
   status?: string;
-  finishiedAt?: Date;
+  finishedAt?: Date;
 
-  constructor(id: number, title?: string, status?: string, finishiedAt?: Date) {
+  constructor(id: number, title?: string, status?: string, finishedAt?: Date) {
     this.id = id;
     this.title = title;
     this.status = status;
-    this.finishiedAt = finishiedAt;
+    this.finishedAt = finishedAt;
   }
 
   getId(): number {
@@ -23,7 +23,7 @@ export class UpdateTodoDto {
     return this.status;
   }
 
-  getFinishiedAt(): Date | undefined {
-    return this.finishiedAt;
+  getFinishedAt(): Date | undefined {
+    return this.finishedAt;
   }
 }

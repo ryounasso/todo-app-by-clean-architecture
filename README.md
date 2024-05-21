@@ -24,7 +24,7 @@
 
 ### Update Task
 
-`curl -X PUT localhost:3000/todo.json -H "Content-Type: application/json" -d '{"id":1,"user_id":1, "title":"update Task"}' | jq`
+`curl -X PUT localhost:3000/todo.json -H "Content-Type: application/json" -d '{"id":1, "user_id":1, "title":"update Task"}' | jq`
 
 ### Start Task
 
