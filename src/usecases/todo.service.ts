@@ -1,4 +1,4 @@
-import { Task } from '../entities/task';
+import { Todo } from '../entities/todo';
 import { AddTodoDto } from './addTodo.dto';
 import { DoneDto } from './done.dto';
 import { StartDto } from './start.dto';
@@ -8,7 +8,7 @@ import { UpdateTodoDto } from './update.todo.dto';
 export interface TodoService {
   getTodoList(
     userId: number,
-    fields: (keyof Task)[],
+    fields: (keyof Todo)[],
     exclude_done_task?: boolean,
   ): Promise<TodoDto[]>;
 

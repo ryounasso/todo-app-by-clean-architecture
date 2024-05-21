@@ -4,7 +4,8 @@ import { AddTodoDto } from './addTodo.dto';
 import { TodoDxo } from '../todo.dxo';
 import { PrismaService } from '../../drivers/prisma.service';
 import { UpdateTodoDto } from './updateTodo.dto';
-import { Task } from '../../entities/task';
+import { Todo } from '../../entities/todo';
+import { StatusType } from '../../entities/status.type';
 
 @Injectable()
 export class TaskRepositoryImpl implements TaskRepository {
@@ -13,52 +14,74 @@ export class TaskRepositoryImpl implements TaskRepository {
     @Inject('PrismaService') private readonly prisma: PrismaService,
   ) {}
 
-  async findById(id: number): Promise<Task> {
+  async findById(id: number): Promise<Todo> {
     const task = await this.prisma.findTaskByUserId(id);
     if (!task) throw new Error('Task not found');
-    return new Task(
+    return new Todo(
       task.id,
       task.title,
+      task.status as StatusType,
       task.userId,
-      task.status,
       task.createdAt,
+      task.finishedAt,
     );
   }
 
-  async findTasks(userId: number): Promise<Task[]> {
+  async findTasks(userId: number): Promise<Todo[]> {
     const tasks = await this.prisma.findTasksByUserId(userId);
     return tasks.map(
       (task) =>
-        new Task(task.id, task.title, task.userId, task.status, task.createdAt),
+        new Todo(
+          task.id,
+          task.title,
+          task.status as StatusType,
+          task.userId,
+          task.createdAt,
+          task.finishedAt,
+        ),
     );
   }
 
-  async findTasksExcludeDone(userId: number): Promise<Task[]> {
+  async findTasksExcludeDone(userId: number): Promise<Todo[]> {
     const tasks = await this.prisma.findTasksExcludeDone(userId);
     return tasks.map(
       (task) =>
-        new Task(task.id, task.title, task.userId, task.status, task.createdAt),
+        new Todo(
+          task.id,
+          task.title,
+          task.status as StatusType,
+          task.userId,
+          task.createdAt,
+          task.finishedAt,
+        ),
     );
   }
 
   async findTaskbySpecifiedFields(
     id: number,
-    spesifiedFilelds: (keyof Task)[],
-  ): Promise<Task[]> {
+    spesifiedFilelds: (keyof Todo)[],
+  ): Promise<Todo[]> {
     const tasks = await this.prisma.findTaskExcludeSpecifiedFields(
       id,
       spesifiedFilelds,
     );
     return tasks.map(
       (task) =>
-        new Task(task.id, task.title, task.userId, task.status, task.createdAt),
+        new Todo(
+          task.id,
+          task.title,
+          task.status as StatusType,
+          task.userId,
+          task.createdAt,
+          task.finishedAt,
+        ),
     );
   }
 
   async findTaskbySpecifiedFieldsAndExcludeDoneTask(
     id: number,
-    spesifiedFilelds: (keyof Task)[],
-  ): Promise<Task[]> {
+    spesifiedFilelds: (keyof Todo)[],
+  ): Promise<Todo[]> {
     const tasks =
       await this.prisma.findTaskExcludeSpecifiedFieldsAndExcludeDoneTask(
         id,
@@ -66,32 +89,41 @@ export class TaskRepositoryImpl implements TaskRepository {
       );
     return tasks.map(
       (task) =>
-        new Task(task.id, task.title, task.userId, task.status, task.createdAt),
+        new Todo(
+          task.id,
+          task.title,
+          task.status as StatusType,
+          task.userId,
+          task.createdAt,
+          task.finishedAt,
+        ),
     );
   }
 
-  async insert(task: AddTodoDto): Promise<Task> {
+  async insert(task: AddTodoDto): Promise<Todo> {
     const insertedTask = await this.prisma.insertTask(task);
-    return new Task(
+    return new Todo(
       insertedTask.id,
       insertedTask.title,
+      insertedTask.status as StatusType,
       insertedTask.userId,
-      insertedTask.status,
       insertedTask.createdAt,
+      insertedTask.finishedAt,
     );
   }
 
-  async update(updateTodoDto: UpdateTodoDto): Promise<Task> {
+  async update(updateTodoDto: UpdateTodoDto): Promise<Todo> {
     const updateValue = this.createUpdateObjectExcludeNullValue(updateTodoDto);
     if (!updateValue) throw new Error('Invalid update value');
     const updatedTask = await this.prisma.updateTask(updateValue);
 
-    return new Task(
+    return new Todo(
       updatedTask.id,
       updatedTask.title,
+      updatedTask.status as StatusType,
       updatedTask.userId,
-      updatedTask.status,
       updatedTask.createdAt,
+      updatedTask.finishedAt,
     );
   }
 

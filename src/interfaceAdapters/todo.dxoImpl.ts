@@ -9,6 +9,7 @@ export class TodoDxoImpl implements TodoDxoImpl {
       todoDto.getUserId(),
       todoDto.getStatus(),
       todoDto.getCreatedAt(),
+      todoDto.getFinishedAt(),
     );
   }
 }

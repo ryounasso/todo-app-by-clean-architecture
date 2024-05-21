@@ -4,6 +4,7 @@ export class TodoDto {
   user_id: number;
   status: string;
   createdAt: Date;
+  finishedAt: Date | null;
 
   constructor(
     id: number,
@@ -11,12 +12,14 @@ export class TodoDto {
     user_id: number,
     status: string,
     createdAt: Date,
+    finishedAt: Date | null,
   ) {
     this.id = id;
     this.title = title;
     this.user_id = user_id;
     this.status = status;
     this.createdAt = createdAt;
+    this.finishedAt = finishedAt;
   }
 
   getId(): number {
@@ -37,5 +40,9 @@ export class TodoDto {
 
   getCreatedAt(): Date {
     return this.createdAt;
+  }
+
+  getFinishedAt(): Date | null {
+    return this.finishedAt;
   }
 }

@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { TodoService } from 'src/usecases/todo.service';
 import { GetOutputForm } from './get.outputform';
-import { Task } from '../../entities/task';
+import { Todo } from '../../entities/todo';
 
 @Controller('todo')
 export class GetController {
@@ -21,7 +21,7 @@ export class GetController {
 
     const taskDto = await this.todoService.getTodoList(
       Number.parseInt(user_id),
-      fields as (keyof Task)[],
+      fields as (keyof Todo)[],
       exclude_done_task,
     );
     return taskDto.map((task) => {
@@ -29,7 +29,9 @@ export class GetController {
         task.getId(),
         task.getUserId(),
         task.getTitle(),
+        task.getStatus(),
         task.getCreatedAt(),
+        task.getFinishedAt(),
       );
     });
   }

@@ -44,7 +44,7 @@ case $action in
     json_data="{\"user_id\": \"$user_id\", \"title\": \"$title\"}"
     ;;
   3)
-    api_url="$base_url/todo/update.json"
+    api_url="$base_url/todo.json"
     method="PUT"
     ;;
   4)
