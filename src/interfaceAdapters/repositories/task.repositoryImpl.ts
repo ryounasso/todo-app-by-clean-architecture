@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { TaskRepository } from './task.repository';
 import { AddTodoDto } from './addTodo.dto';
-import { TodoDxo } from './todo.dxo';
-import { PrismaService } from '../prisma.service';
+import { TodoDxo } from '../todo.dxo';
+import { PrismaService } from '../../drivers/prisma.service';
 import { UpdateTodoDto } from './updateTodo.dto';
 import { Task } from '../../entities/task';
 

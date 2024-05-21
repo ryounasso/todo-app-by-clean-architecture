@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { Models, UpdateTodo } from './prisma.service';
-import { AddTodoDto } from './task/addTodo.dto';
+import { AddTodoDto } from '../interfaceAdapters/repositories/addTodo.dto';
 
 @Injectable()
 export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {

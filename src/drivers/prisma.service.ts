@@ -1,5 +1,5 @@
 import { PrismaClient, Task } from '@prisma/client';
-import { AddTodoDto } from './task/addTodo.dto';
+import { AddTodoDto } from '../interfaceAdapters/repositories/addTodo.dto';
 import { StatusType } from '../entities/status.type';
 import { Task as TaskEntity } from '../entities/task';
 

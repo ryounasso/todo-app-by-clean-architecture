@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GetController } from '../interfaceAdapters/task/get.controller';
+import { GetController } from '../interfaceAdapters/controllers/get.controller';
 import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
-import { GetOutputForm } from '../interfaceAdapters/task/get.outputform';
+import { GetOutputForm } from '../interfaceAdapters/controllers/get.outputform';
 import { TodoDto } from '../usecases/todo.dto';
 import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
-import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/task/todo.dxoImpl';
+import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
 
 const mockTaskRepository = () => ({
   findTasks: jest.fn(),
