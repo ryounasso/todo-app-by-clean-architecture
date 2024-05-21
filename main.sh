@@ -46,6 +46,14 @@ case $action in
   3)
     api_url="$base_url/todo.json"
     method="PUT"
+
+    read -p "Enter task_id: " task_id
+
+    read -p "Enter user_id: " user_id
+
+    read -p "Enter title: " title
+
+    json_data="{\"id\": \"$task_id\", \"user_id\": \"$user_id\",  \"title\": \"$title\"}"
     ;;
   4)
     api_url="$base_url/todo/start.json"
