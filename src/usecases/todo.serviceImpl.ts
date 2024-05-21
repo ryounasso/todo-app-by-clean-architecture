@@ -1,4 +1,4 @@
-import { TaskRepository } from '../interfaceAdapters/task/task.repository';
+import { TaskRepository } from '../interfaceAdapters/repositories/task.repository';
 import { TodoService } from './todo.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { TodoDto } from './todo.dto';
