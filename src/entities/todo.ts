@@ -47,4 +47,12 @@ export class Todo {
   getFinishedAt(): Date | null {
     return this.finishedAt;
   }
+
+  public start(): void {
+    this.status = 'doing';
+  }
+
+  public done(): void {
+    this.status = 'done';
+  }
 }

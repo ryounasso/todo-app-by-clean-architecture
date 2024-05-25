@@ -87,10 +87,12 @@ export class TodoServiceImpl implements TodoService {
   }
 
   async startTodo(id: number): Promise<StartDto> {
-    const task = await this.taskRepository.update(
-      new UpdateTodoDto(id, undefined, 'doing'),
-    );
-    return new StartDto(task.getId(), task.getStatus());
+    // optional
+    const task = await this.taskRepository.findById(id);
+    task.start();
+
+    const updatedTask = await this.taskRepository.update(task);
+    return new StartDto(updatedTask.getId(), updatedTask.getStatus());
   }
 
   async done(id: number): Promise<DoneDto> {
