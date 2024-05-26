@@ -1,7 +1,7 @@
-import { PrismaClient, Task } from '@prisma/client';
+import { PrismaClient, Todo } from '@prisma/client';
 import { AddTodoDto } from '../interfaceAdapters/repositories/addTodo.dto';
 import { StatusType } from '../entities/status.type';
-import { Todo } from '../entities/todo';
+import { Todo as TodoEntity } from '../entities/todo';
 
 export type UpdateTodo = {
   id: number;
@@ -11,7 +11,7 @@ export type UpdateTodo = {
 };
 
 export type UpdateStatus = {
-  taskId: number;
+  todoId: number;
   status: StatusType;
 };
 
@@ -23,23 +23,23 @@ export type Models = Extract<
 export interface PrismaService {
   onModuleInit(): void;
 
-  findTaskByUserId(id: number): Promise<Task>;
+  findTodoByUserId(id: number): Promise<Todo>;
 
-  findTasksByUserId(userId: number): Promise<Task[]>;
+  findTodoListByUserId(userId: number): Promise<Todo[]>;
 
-  findTasksExcludeDone(userId: number): Promise<Task[]>;
+  findTodoListExcludeDone(userId: number): Promise<Todo[]>;
 
-  findTaskExcludeSpecifiedFields(
+  findTodoExcludeSpecifiedFields(
     id: number,
-    spesifiedFilelds: (keyof Todo)[],
-  ): Promise<Task[]>;
+    spesifiedFilelds: (keyof TodoEntity)[],
+  ): Promise<Todo[]>;
 
-  findTaskExcludeSpecifiedFieldsAndExcludeDoneTask(
+  findTodoExcludeSpecifiedFieldsAndExcludeDoneTodo(
     id: number,
-    spesifiedFilelds: (keyof Todo)[],
-  ): Promise<Task[]>;
+    spesifiedFilelds: (keyof TodoEntity)[],
+  ): Promise<Todo[]>;
 
-  insertTask(addTodoDto: AddTodoDto): Promise<Task>;
+  insertTodo(addTodoDto: AddTodoDto): Promise<Todo>;
 
-  updateTask(task: UpdateTodo): Promise<Task>;
+  updateTodo(todo: UpdateTodo): Promise<Todo>;
 }

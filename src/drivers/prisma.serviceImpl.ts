@@ -9,56 +9,56 @@ export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {
     await this.$connect();
   }
 
-  async findTaskByUserId(id: number) {
-    return await this.task.findUnique({ where: { id } });
+  async findTodoByUserId(id: number) {
+    return await this.todo.findUnique({ where: { id } });
   }
 
-  async findTasksByUserId(userId: number) {
-    return await this.task.findMany({
+  async findTodoListByUserId(userId: number) {
+    return await this.todo.findMany({
       where: { userId: userId },
       orderBy: { id: 'asc' },
     });
   }
 
-  async findTasksExcludeDone(userId: number) {
-    return await this.task.findMany({
+  async findTodoListExcludeDone(userId: number) {
+    return await this.todo.findMany({
       where: { userId: userId, status: { not: 'done' } },
       orderBy: { id: 'asc' },
     });
   }
 
-  async findTaskExcludeSpecifiedFields(
+  async findTodoExcludeSpecifiedFields(
     userId: number,
     spesifiedFilelds: (keyof Models['fields'])[],
   ) {
-    return await this.task.findMany({
+    return await this.todo.findMany({
       where: { userId: userId },
-      select: this.prismaSpecifyFields(this.task.fields, spesifiedFilelds),
+      select: this.prismaSpecifyFields(this.todo.fields, spesifiedFilelds),
       orderBy: { id: 'asc' },
     });
   }
 
-  async findTaskExcludeSpecifiedFieldsAndExcludeDoneTask(
+  async findTodoExcludeSpecifiedFieldsAndExcludeDoneTodo(
     userId: number,
     spesifiedFilelds: (keyof Models['fields'])[],
   ) {
-    return await this.task.findMany({
+    return await this.todo.findMany({
       where: { userId: userId, status: { not: 'done' } },
-      select: this.prismaSpecifyFields(this.task.fields, spesifiedFilelds),
+      select: this.prismaSpecifyFields(this.todo.fields, spesifiedFilelds),
       orderBy: { id: 'asc' },
     });
   }
 
-  async insertTask(addTodoDto: AddTodoDto) {
-    return await this.task.create({
+  async insertTodo(addTodoDto: AddTodoDto) {
+    return await this.todo.create({
       data: { title: addTodoDto.getTitle(), userId: addTodoDto.getUserId() },
     });
   }
 
-  async updateTask(task: UpdateTodo) {
-    return await this.task.update({
-      where: { id: task.id },
-      data: task,
+  async updateTodo(todo: UpdateTodo) {
+    return await this.todo.update({
+      where: { id: todo.id },
+      data: todo,
     });
   }
 

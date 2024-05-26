@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { GetController } from './interfaceAdapters/controllers/get.controller';
 import { TodoServiceImpl } from './usecases/todo.serviceImpl';
 import { AddController } from './interfaceAdapters/controllers/add.controller';
-import { TaskRepositoryImpl } from './interfaceAdapters/repositories/task.repositoryImpl';
+import { TodoRepositoryImpl } from './interfaceAdapters/repositories/todo.repositoryImpl';
 import { TodoDxoImpl } from './usecases/todo.dxoImpl';
 import { TodoDxoImpl as AdapterTodoDxoImpl } from './interfaceAdapters/todo.dxoImpl';
 import { UpdateController } from './interfaceAdapters/controllers/update.controller';
@@ -18,8 +18,8 @@ import { PostController } from './interfaceAdapters/controllers/post.controller'
       useClass: TodoServiceImpl,
     },
     {
-      provide: 'TaskRepository',
-      useClass: TaskRepositoryImpl,
+      provide: 'TodoRepository',
+      useClass: TodoRepositoryImpl,
     },
     {
       provide: 'UsecaseTodoDxo',

@@ -1,4 +1,4 @@
-import { TaskRepository } from '../interfaceAdapters/repositories/task.repository';
+import { TodoRepository } from '../interfaceAdapters/repositories/todo.repository';
 import { TodoService } from './todo.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { TodoDto } from './todo.dto';
@@ -12,93 +12,92 @@ import { Todo } from '../entities/todo';
 @Injectable()
 export class TodoServiceImpl implements TodoService {
   constructor(
-    @Inject('TaskRepository') private readonly taskRepository: TaskRepository,
+    @Inject('TodoRepository') private readonly todoRepository: TodoRepository,
     @Inject('UsecaseTodoDxo') private readonly todoDxo: TodoDxo,
   ) {}
 
   async getTodoList(
     userId: number,
     fields: (keyof Todo)[],
-    exclude_done_task?: boolean,
+    exclude_done_todo?: boolean,
   ): Promise<TodoDto[]> {
-    let taskList;
-    if (exclude_done_task) {
-      taskList = await this.taskRepository.findTasksExcludeDone(userId);
+    let todoList;
+    if (exclude_done_todo) {
+      todoList = await this.todoRepository.findTodoListExcludeDone(userId);
     } else {
-      taskList = await this.taskRepository.findTasks(userId);
+      todoList = await this.todoRepository.findTodoList(userId);
     }
 
     if (fields.length > 0) {
-      if (exclude_done_task) {
-        taskList =
-          await this.taskRepository.findTaskbySpecifiedFieldsAndExcludeDoneTask(
+      if (exclude_done_todo) {
+        todoList =
+          await this.todoRepository.findTodobySpecifiedFieldsAndExcludeDoneTodo(
             userId,
             fields,
           );
       } else {
-        taskList = await this.taskRepository.findTaskbySpecifiedFields(
+        todoList = await this.todoRepository.findTodoListbySpecifiedFields(
           userId,
           fields,
         );
       }
     }
 
-    return taskList.map((task) => {
+    return todoList.map((todo) => {
       return new TodoDto(
-        task.getId(),
-        task.getTitle(),
-        task.getUserId(),
-        task.getStatus(),
-        task.getCreatedAt(),
-        task.getFinishedAt(),
+        todo.getId(),
+        todo.getTitle(),
+        todo.getUserId(),
+        todo.getStatus(),
+        todo.getCreatedAt(),
       );
     });
   }
 
   async addTodo(addTodoDto: AddTodoDto): Promise<TodoDto> {
-    const task = await this.taskRepository.insert(
+    const todo = await this.todoRepository.insert(
       this.todoDxo.convertToAddTodoDto(addTodoDto),
     );
     return new TodoDto(
-      task.getId(),
-      task.getTitle(),
-      task.getUserId(),
-      task.getStatus(),
-      task.getCreatedAt(),
-      task.getFinishedAt(),
+      todo.getId(),
+      todo.getTitle(),
+      todo.getUserId(),
+      todo.getStatus(),
+      todo.getCreatedAt(),
     );
   }
 
   async setTodo(updateTodoDto: UpdateTodoDto): Promise<TodoDto> {
-    const task = await this.taskRepository.update(
+    const todo = await this.todoRepository.update(
       this.todoDxo.convertToUpdateTodoDto(
         new UpdateTodoDto(updateTodoDto.getId(), updateTodoDto.getTitle()),
       ),
     );
 
     return new TodoDto(
-      task.getId(),
-      task.getTitle(),
-      task.getUserId(),
-      task.getStatus(),
-      task.getCreatedAt(),
-      task.getFinishedAt(),
+      todo.getId(),
+      todo.getTitle(),
+      todo.getUserId(),
+      todo.getStatus(),
+      todo.getCreatedAt(),
     );
   }
 
   async startTodo(id: number): Promise<StartDto> {
     // optional
-    const task = await this.taskRepository.findById(id);
-    task.start();
+    const todo = await this.todoRepository.findById(id);
+    todo.start();
 
-    const updatedTask = await this.taskRepository.update(task);
-    return new StartDto(updatedTask.getId(), updatedTask.getStatus());
+    const updatedTodo = await this.todoRepository.update(
+      new UpdateTodoDto(todo.getId(), todo.getTitle(), todo.getStatus()),
+    );
+    return new StartDto(updatedTodo.getId(), updatedTodo.getStatus());
   }
 
   async done(id: number): Promise<DoneDto> {
-    const task = await this.taskRepository.update(
+    const todo = await this.todoRepository.update(
       new UpdateTodoDto(id, undefined, 'done', new Date()),
     );
-    return new DoneDto(task.getId(), task.getStatus());
+    return new DoneDto(todo.getId(), todo.getStatus());
   }
 }
