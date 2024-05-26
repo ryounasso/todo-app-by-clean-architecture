@@ -135,8 +135,8 @@ export class TodoRepositoryImpl implements TodoRepository {
     if (updateTodoDto.getStatus() !== null) {
       obj.status = updateTodoDto.getStatus();
     }
-    if (updateTodoDto.getFinishiedAt() !== null)
-      obj.finishedAt = updateTodoDto.getFinishiedAt();
+    if (updateTodoDto.getFinishedAt() !== null)
+      obj.finishedAt = updateTodoDto.getFinishedAt();
 
     return obj;
   }

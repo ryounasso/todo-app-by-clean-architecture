@@ -50,6 +50,7 @@ export class TodoServiceImpl implements TodoService {
         todo.getUserId(),
         todo.getStatus(),
         todo.getCreatedAt(),
+        todo.getFinishedAt(),
       );
     });
   }
@@ -64,6 +65,7 @@ export class TodoServiceImpl implements TodoService {
       todo.getUserId(),
       todo.getStatus(),
       todo.getCreatedAt(),
+      todo.getFinishedAt(),
     );
   }
 
@@ -80,6 +82,7 @@ export class TodoServiceImpl implements TodoService {
       todo.getUserId(),
       todo.getStatus(),
       todo.getCreatedAt(),
+      todo.getFinishedAt(),
     );
   }
 
