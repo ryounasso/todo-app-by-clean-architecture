@@ -84,7 +84,6 @@ export class TodoServiceImpl implements TodoService {
   }
 
   async startTodo(id: number): Promise<StartDto> {
-    // optional
     const todo = await this.todoRepository.findById(id);
     todo.start();
 
@@ -95,9 +94,17 @@ export class TodoServiceImpl implements TodoService {
   }
 
   async done(id: number): Promise<DoneDto> {
-    const todo = await this.todoRepository.update(
-      new UpdateTodoDto(id, undefined, 'done', new Date()),
+    const todo = await this.todoRepository.findById(id);
+    todo.done();
+
+    const updatedTodo = await this.todoRepository.update(
+      new UpdateTodoDto(
+        todo.getId(),
+        todo.getTitle(),
+        todo.getStatus(),
+        new Date(),
+      ),
     );
-    return new DoneDto(todo.getId(), todo.getStatus());
+    return new DoneDto(updatedTodo.getId(), updatedTodo.getStatus());
   }
 }
