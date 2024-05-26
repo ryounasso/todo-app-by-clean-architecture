@@ -2,19 +2,19 @@ import { AddTodoDto } from './addTodo.dto';
 import { UpdateTodoDto } from './updateTodo.dto';
 import { Todo } from '../../entities/todo';
 
-export interface TaskRepository {
+export interface TodoRepository {
   findById(id: number): Promise<Todo>;
 
-  findTasks(userId: number): Promise<Todo[]>;
+  findTodoList(userId: number): Promise<Todo[]>;
 
-  findTasksExcludeDone(userId: number): Promise<Todo[]>;
+  findTodoListExcludeDone(userId: number): Promise<Todo[]>;
 
-  findTaskbySpecifiedFields(
+  findTodoListbySpecifiedFields(
     id: number,
     spesifiedFilelds: (keyof Todo)[],
   ): Promise<Todo[]>;
 
-  findTaskbySpecifiedFieldsAndExcludeDoneTask(
+  findTodobySpecifiedFieldsAndExcludeDoneTodo(
     id: number,
     spesifiedFilelds: (keyof Todo)[],
   ): Promise<Todo[]>;

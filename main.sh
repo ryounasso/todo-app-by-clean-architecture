@@ -1,12 +1,20 @@
 #!/bin/bash
 
+# user_id を引数で受け取る
+user_id=$1
+
+# 引数が指定されていなければ、ユーザーに user_id を入力してもらう
+if [ -z "$user_id" ]; then
+  read -p "Enter user_id: " user_id
+fi
+
 # 対話形式でユーザーからアクションを入力
 echo "Choose an action:"
-echo "1. Get task list"
-echo "2. Create task"
-echo "3. Update task"
-echo "4. Start task"
-echo "5. Finish task"
+echo "1. Get todo list"
+echo "2. Create todo"
+echo "3. Update todo"
+echo "4. Start todo"
+echo "5. Finish todo"
 read -p "Enter the number of the action: " action
 
 # アクションに基づいてAPIのURLを決定
@@ -16,14 +24,13 @@ case $action in
     api_url="$base_url/todo/list.json"
     method="GET"
     # クエリパラメータを入力
-    read -p "Enter user_id: " user_id
     if [ -n "$user_id" ]; then
       query="?user_id=$user_id"
 
       # doneタスクを除去するかどうか尋ねる
-      read -p "Exclude done tasks? (yes/no): " exclude_done
+      read -p "Exclude done todo? (yes/no): " exclude_done
       if [ "$exclude_done" == "yes" ]; then
-        query="$query&exclude_done_task=true"
+        query="$query&exclude_done_todo=true"
       fi
 
       # 取得したいフィールドを尋ねる
@@ -37,8 +44,6 @@ case $action in
     api_url="$base_url/todo.json"
     method="POST"
 
-    read -p "Enter user_id: " user_id
-
     read -p "Enter title: " title
 
     json_data="{\"user_id\": \"$user_id\", \"title\": \"$title\"}"
@@ -47,33 +52,28 @@ case $action in
     api_url="$base_url/todo.json"
     method="PUT"
 
-    read -p "Enter task_id: " task_id
-
-    read -p "Enter user_id: " user_id
+    read -p "Enter todo_id: " todo_id
 
     read -p "Enter title: " title
 
-    json_data="{\"id\": \"$task_id\", \"user_id\": \"$user_id\",  \"title\": \"$title\"}"
+    json_data="{\"user_id\": \"$user_id\", \"id\": \"$todo_id\", \"title\": \"$title\"}"
     ;;
   4)
     api_url="$base_url/todo/start.json"
     method="POST"
-    read -p "Enter user_id: " user_id
 
-    read -p "Enter task_id: " task_id
+    read -p "Enter todo_id: " todo_id
 
-    json_data="{\"user_id\": \"$user_id\", \"id\": \"$task_id\"}"
+    json_data="{\"user_id\": \"$user_id\", \"id\": \"$todo_id\"}"
     ;;
 
   5)
     api_url="$base_url/todo/done.json"
     method="POST"
 
-    read -p "Enter user_id: " user_id
+    read -p "Enter todo_id: " todo_id
 
-    read -p "Enter task_id: " task_id
-
-    json_data="{\"user_id\": \"$user_id\", \"id\": \"$task_id\"}"
+    json_data="{\"user_id\": \"$user_id\", \"id\": \"$todo_id\"}"
     ;;
   *)
     echo "Invalid action"

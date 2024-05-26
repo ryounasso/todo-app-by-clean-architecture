@@ -1,9 +1,7 @@
-import { StatusType } from './status.type';
-
 export class Todo {
   private id: number;
   private title: string;
-  private status: StatusType;
+  private status: string;
   private userId: number;
   private createdAt: Date;
   private finishedAt: Date | null;
@@ -11,7 +9,7 @@ export class Todo {
   constructor(
     id: number,
     title: string,
-    status: StatusType,
+    status: string,
     userId: number,
     createdAt: Date,
     finishedAt: Date | null,
@@ -32,7 +30,7 @@ export class Todo {
     return this.title;
   }
 
-  getStatus(): StatusType {
+  getStatus(): string {
     return this.status;
   }
 
@@ -46,5 +44,13 @@ export class Todo {
 
   getFinishedAt(): Date | null {
     return this.finishedAt;
+  }
+
+  public start(): void {
+    this.status = 'doing';
+  }
+
+  public done(): void {
+    this.status = 'done';
   }
 }

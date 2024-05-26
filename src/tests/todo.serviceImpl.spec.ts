@@ -6,9 +6,9 @@ import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
 import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
 import { UpdateTodoDto } from '../usecases/update.todo.dto';
 
-const mockTaskRepository = () => ({
+const mockTodoRepository = () => ({
   findById: jest.fn(),
-  findTasks: jest.fn(),
+  findTodoList: jest.fn(),
   insert: jest.fn(),
   update: jest.fn(),
 });
@@ -16,30 +16,30 @@ const mockTaskRepository = () => ({
 const user_id = 1;
 
 describe('TodoService', () => {
-  let taskService: TodoServiceImpl;
-  let taskRepository: any;
+  let todoService: TodoServiceImpl;
+  let todoRepository: any;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: 'TodoService', useClass: TodoServiceImpl },
-        { provide: 'TaskRepository', useFactory: mockTaskRepository },
+        { provide: 'TodoRepository', useFactory: mockTodoRepository },
         { provide: 'UsecaseTodoDxo', useClass: TodoDxoImpl },
         { provide: 'AdapterTodoDxo', useClass: AdapterTodoDxoImpl },
       ],
     }).compile();
 
-    taskService = app.get('TodoService');
-    taskRepository = app.get('TaskRepository');
+    todoService = app.get('TodoService');
+    todoRepository = app.get('TodoRepository');
   });
 
   describe('root', () => {
-    it('should return Task List', async () => {
-      taskRepository.findTasks.mockReturnValue(createMockTodoDtos());
-      const result = await taskService.getTodoList(user_id);
+    it('should return Todo List', async () => {
+      todoRepository.findTodoList.mockReturnValue(createMockTodoDtos());
+      const result = await todoService.getTodoList(user_id, [], false);
       const expected = createExpectedTodoDtos();
-      result.forEach((task, index) => {
-        expect(task).toEqual({
+      result.forEach((todo, index) => {
+        expect(todo).toEqual({
           id: expected[index].id,
           userId: expected[index].userId,
           title: expected[index].title,
@@ -50,29 +50,29 @@ describe('TodoService', () => {
     });
 
     it('should return created Todo', async () => {
-      const title = 'Task 1';
+      const title = 'Todo 1';
 
-      taskRepository.insert.mockReturnValue(
-        createMockInsertedTask(user_id, title),
+      todoRepository.insert.mockReturnValue(
+        createMockInsertedTodo(user_id, title),
       );
-      const result = await taskService.addTodo(new AddTodoDto(user_id, title));
+      const result = await todoService.addTodo(new AddTodoDto(user_id, title));
       const expected = createExpectedTodoDto();
       expect(result).toEqual(expected);
     });
 
     it('should update Todo', async () => {
-      const title = 'Task 1';
+      const title = 'Todo 1';
       const id = 1;
       const createdAt = new Date();
 
-      taskRepository.findById.mockReturnValue(
+      todoRepository.findById.mockReturnValue(
         createExpectedTodoDto(title, createdAt),
       );
 
-      taskRepository.update.mockReturnValue(
+      todoRepository.update.mockReturnValue(
         createExpectedTodoDto(title, createdAt),
       );
-      const result = await taskService.setTodo(new UpdateTodoDto(id, title));
+      const result = await todoService.setTodo(new UpdateTodoDto(id, title));
       const expected = createExpectedTodoDto(undefined, createdAt);
       expect(result).toEqual(expected);
     });
@@ -81,26 +81,26 @@ describe('TodoService', () => {
 
 const createExpectedTodoDtos = (): TodoDto[] => {
   return [
-    new TodoDto(1, 'Task 1', user_id, 'ready', new Date()),
-    new TodoDto(2, 'Task 2', user_id, 'ready', new Date()),
-    new TodoDto(3, 'Task 3', user_id, 'ready', new Date()),
+    new TodoDto(1, 'Todo 1', user_id, 'ready', new Date()),
+    new TodoDto(2, 'Todo 2', user_id, 'ready', new Date()),
+    new TodoDto(3, 'Todo 3', user_id, 'ready', new Date()),
   ];
 };
 
 const createMockTodoDtos = (): TodoDto[] => {
   return [
-    new TodoDto(1, 'Task 1', user_id, 'ready', new Date()),
-    new TodoDto(2, 'Task 2', user_id, 'ready', new Date()),
-    new TodoDto(3, 'Task 3', user_id, 'ready', new Date()),
+    new TodoDto(1, 'Todo 1', user_id, 'ready', new Date()),
+    new TodoDto(2, 'Todo 2', user_id, 'ready', new Date()),
+    new TodoDto(3, 'Todo 3', user_id, 'ready', new Date()),
   ];
 };
 
-const createMockInsertedTask = (user_id: number, title: string): TodoDto => {
+const createMockInsertedTodo = (user_id: number, title: string): TodoDto => {
   return new TodoDto(1, title, user_id, 'ready', new Date());
 };
 
 const createExpectedTodoDto = (
-  title: string = 'Task 1',
+  title: string = 'Todo 1',
   createdAt: Date = new Date(),
 ) => {
   return new TodoDto(1, title, user_id, 'ready', createdAt);

@@ -12,26 +12,26 @@ export class GetController {
   @Get('list.json')
   async run(
     @Query('user_id') user_id: string,
-    @Query('exclude_done_task') exclude_done_task?: boolean,
+    @Query('exclude_done_todo') exclude_done_todo?: boolean,
     @Query('fields') field?: string,
   ): Promise<GetOutputForm[]> {
     if (!user_id) throw new Error('user_id is required');
 
     const fields = field ? field.split(',') : [];
 
-    const taskDto = await this.todoService.getTodoList(
+    const todoDto = await this.todoService.getTodoList(
       Number.parseInt(user_id),
       fields as (keyof Todo)[],
-      exclude_done_task,
+      exclude_done_todo,
     );
-    return taskDto.map((task) => {
+    return todoDto.map((todo) => {
       return new GetOutputForm(
-        task.getId(),
-        task.getUserId(),
-        task.getTitle(),
-        task.getStatus(),
-        task.getCreatedAt(),
-        task.getFinishedAt(),
+        todo.getId(),
+        todo.getUserId(),
+        todo.getTitle(),
+        todo.getStatus(),
+        todo.getCreatedAt(),
+        todo.getFinishedAt(),
       );
     });
   }

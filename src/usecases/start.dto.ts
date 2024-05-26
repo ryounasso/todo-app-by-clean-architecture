@@ -1,14 +1,14 @@
 export class StartDto {
-  private taskId: number;
+  private todoId: number;
   private status: string;
 
-  constructor(taskId: number, status: string) {
-    this.taskId = taskId;
+  constructor(todoId: number, status: string) {
+    this.todoId = todoId;
     this.status = status;
   }
 
-  getTaskId(): number {
-    return this.taskId;
+  getTodoId(): number {
+    return this.todoId;
   }
 
   getStatus(): string {

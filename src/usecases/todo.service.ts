@@ -9,7 +9,7 @@ export interface TodoService {
   getTodoList(
     userId: number,
     fields: (keyof Todo)[],
-    exclude_done_task?: boolean,
+    exclude_done_todo?: boolean,
   ): Promise<TodoDto[]>;
 
   addTodo(addTodoDto: AddTodoDto): Promise<TodoDto>;
