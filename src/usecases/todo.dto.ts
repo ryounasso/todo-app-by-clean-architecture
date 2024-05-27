@@ -9,14 +9,14 @@ export class TodoDto {
   constructor(
     id: number,
     title: string,
-    user_id: number,
+    userId: number,
     status: string,
     createdAt: Date,
     finishedAt: Date | null,
   ) {
     this.id = id;
     this.title = title;
-    this.userId = user_id;
+    this.userId = userId;
     this.status = status;
     this.createdAt = createdAt;
     this.finishedAt = finishedAt;

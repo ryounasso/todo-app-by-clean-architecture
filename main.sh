@@ -8,6 +8,9 @@ if [ -z "$user_id" ]; then
   read -p "Enter user_id: " user_id
 fi
 
+while true
+do
+
 # 対話形式でユーザーからアクションを入力
 echo "Choose an action:"
 echo "1. Get todo list"
@@ -91,3 +94,6 @@ fi
 # 結果を表示
 echo "API Response:"
 echo "$response"
+echo $'\n'
+
+done
