@@ -8,7 +8,7 @@ import { UpdateTodoDto } from './update.todo.dto';
 import { StartDto } from './start.dto';
 import { DoneDto } from './done.dto';
 import { Todo } from '../entities/todo';
-import { PartOfTodoDto } from './partOfTodo.dto';
+import { TodoListDto } from './todoListDto.dto';
 
 @Injectable()
 export class TodoServiceImpl implements TodoService {
@@ -21,7 +21,7 @@ export class TodoServiceImpl implements TodoService {
     userId: number,
     fields: (keyof Todo)[],
     exclude_done_todo?: boolean,
-  ): Promise<PartOfTodoDto[]> {
+  ): Promise<TodoListDto> {
     let todoList;
     if (exclude_done_todo) {
       todoList = await this.todoRepository.findTodoListExcludeDone(userId);
@@ -44,16 +44,19 @@ export class TodoServiceImpl implements TodoService {
       }
     }
 
-    return todoList.map((todo) => {
-      return new PartOfTodoDto(
-        todo.getId(),
-        todo.getTitle(),
-        todo.getStatus(),
-        todo.getUserId(),
-        todo.getCreatedAt(),
-        todo.getFinishedAt(),
-      );
-    });
+    const items = todoList.map(
+      (todo) =>
+        new TodoListDto.Item(
+          todo.getId(),
+          todo.getTitle(),
+          todo.getStatus(),
+          todo.getUserId(),
+          todo.getCreatedAt(),
+          todo.getFinishedAt(),
+        ),
+    );
+
+    return new TodoListDto(items);
   }
 
   async addTodo(addTodoDto: AddTodoDto): Promise<TodoDto> {

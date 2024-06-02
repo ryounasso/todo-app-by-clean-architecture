@@ -1,24 +1,60 @@
 export class GetOutputForm {
-  id: number;
-  user_id?: number;
-  title?: string;
-  status?: string;
-  createdAt?: Date;
-  finishedAt?: Date | null;
+  private todoList: Item[];
+
+  constructor(todoList: Item[]) {
+    this.todoList = todoList;
+  }
+
+  getTodoList(): Item[] {
+    return this.todoList;
+  }
+}
+
+class Item {
+  private id: number;
+  private title?: string;
+  private userId?: number;
+  private status?: string;
+  private createdAt?: Date;
+  private finishedAt?: Date | null;
 
   constructor(
     id: number,
-    user_id?: number,
     title?: string,
     status?: string,
+    userId?: number,
     createdAt?: Date,
     finishedAt?: Date | null,
   ) {
     this.id = id;
-    this.user_id = user_id;
     this.title = title;
     this.status = status;
+    this.userId = userId;
     this.createdAt = createdAt;
     this.finishedAt = finishedAt;
+  }
+
+  getId(): number {
+    return this.id;
+  }
+
+  getStatus(): string | undefined {
+    return this.status;
+  }
+
+  getTitle(): string | undefined {
+    return this.title;
+  }
+
+  getUserId(): number | undefined {
+    return this.userId;
+  }
+
+  getCreatedAt(): Date | undefined {
+    return this.createdAt;
+  }
+
+  getFinishedAt(): Date | null | undefined {
+    return this.finishedAt;
   }
 }
