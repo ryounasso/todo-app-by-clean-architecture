@@ -1,4 +1,7 @@
-export class PartOfTodoDto {
+// Item クラスが TodoListDto クラスの静的メンバとして定義されると、TypeScript が正しくプロパティのアクセス修飾子を認識できない。
+// Item クラスを外部に定義し、それを TodoListDto クラスの静的メンバとして再定義する。
+
+export class Item {
   private id: number;
   private title?: string;
   private userId?: number;
@@ -45,4 +48,18 @@ export class PartOfTodoDto {
   getFinishedAt(): Date | null | undefined {
     return this.finishedAt;
   }
+}
+
+export class TodoListDto {
+  private todoList: Item[];
+
+  constructor(todoList: Item[]) {
+    this.todoList = todoList;
+  }
+
+  getTodoList(): Item[] {
+    return this.todoList;
+  }
+
+  public static Item = Item;
 }

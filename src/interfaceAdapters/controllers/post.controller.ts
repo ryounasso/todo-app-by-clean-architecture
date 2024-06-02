@@ -7,8 +7,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { TodoService } from 'src/usecases/todo.service';
-import { UpdateOutputForm } from './post.outputform';
 import { UpdateInputForm } from './post.inputform';
+import { StartDto } from 'src/usecases/start.dto';
+import { DoneDto } from 'src/usecases/done.dto';
 
 @Controller('todo')
 export class PostController {
@@ -18,17 +19,13 @@ export class PostController {
 
   @Post('start.json')
   @UsePipes(new ValidationPipe({ transform: true }))
-  async run(@Body() body: UpdateInputForm): Promise<UpdateOutputForm> {
-    const todoDto = await this.todoService.startTodo(
-      Number.parseInt(body.getId()),
-    );
-    return new UpdateOutputForm(todoDto.getTodoId(), todoDto.getStatus());
+  async run(@Body() body: UpdateInputForm): Promise<StartDto> {
+    return await this.todoService.startTodo(Number.parseInt(body.getId()));
   }
 
   @Post('done.json')
   @UsePipes(new ValidationPipe({ transform: true }))
-  async done(@Body() body: UpdateInputForm): Promise<UpdateOutputForm> {
-    const todoDto = await this.todoService.done(Number.parseInt(body.getId()));
-    return new UpdateOutputForm(todoDto.getTodoId(), todoDto.getStatus());
+  async done(@Body() body: UpdateInputForm): Promise<DoneDto> {
+    return await this.todoService.done(Number.parseInt(body.getId()));
   }
 }
