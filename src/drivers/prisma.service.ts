@@ -32,12 +32,12 @@ export interface PrismaService {
   findTodoExcludeSpecifiedFields(
     id: number,
     spesifiedFilelds: (keyof TodoEntity)[],
-  ): Promise<Todo[]>;
+  ): Promise<Partial<Todo>[]>;
 
   findTodoExcludeSpecifiedFieldsAndExcludeDoneTodo(
     id: number,
     spesifiedFilelds: (keyof TodoEntity)[],
-  ): Promise<Todo[]>;
+  ): Promise<Partial<Todo>[]>;
 
   insertTodo(addTodoDto: AddTodoDto): Promise<Todo>;
 

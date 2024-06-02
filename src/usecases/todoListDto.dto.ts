@@ -2,7 +2,7 @@
 // Item クラスを外部に定義し、それを TodoListDto クラスの静的メンバとして再定義する。
 
 export class Item {
-  private id: number;
+  private id?: number;
   private title?: string;
   private userId?: number;
   private status?: string;
@@ -10,7 +10,7 @@ export class Item {
   private finishedAt?: Date | null;
 
   constructor(
-    id: number,
+    id?: number,
     title?: string,
     status?: string,
     userId?: number,
@@ -25,7 +25,7 @@ export class Item {
     this.finishedAt = finishedAt;
   }
 
-  getId(): number {
+  getId(): number | undefined {
     return this.id;
   }
 

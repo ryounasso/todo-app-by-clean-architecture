@@ -31,13 +31,12 @@ export class TodoServiceImpl implements TodoService {
 
     if (fields.length > 0) {
       if (exclude_done_todo) {
-        todoList =
-          await this.todoRepository.findTodobySpecifiedFieldsAndExcludeDoneTodo(
-            userId,
-            fields,
-          );
+        return await this.todoRepository.findTodobySpecifiedFieldsAndExcludeDoneTodo(
+          userId,
+          fields,
+        );
       } else {
-        todoList = await this.todoRepository.findTodoListbySpecifiedFields(
+        return await this.todoRepository.findTodoListbySpecifiedFields(
           userId,
           fields,
         );
