@@ -4,6 +4,7 @@ import { AddTodoDto } from './addTodo.dto';
 import { PrismaService } from '../../drivers/prisma.service';
 import { UpdateTodoDto } from './updateTodo.dto';
 import { Todo } from '../../entities/todo';
+import { Item, TodoListDto } from '../../usecases/todoListDto.dto';
 
 @Injectable()
 export class TodoRepositoryImpl implements TodoRepository {
@@ -57,14 +58,14 @@ export class TodoRepositoryImpl implements TodoRepository {
   async findTodoListbySpecifiedFields(
     id: number,
     spesifiedFilelds: (keyof Todo)[],
-  ): Promise<Todo[]> {
+  ): Promise<TodoListDto> {
     const todoList = await this.prisma.findTodoExcludeSpecifiedFields(
       id,
       spesifiedFilelds,
     );
-    return todoList.map(
+    const items = todoList.map(
       (todo) =>
-        new Todo(
+        new Item(
           todo.id,
           todo.title,
           todo.status,
@@ -73,20 +74,22 @@ export class TodoRepositoryImpl implements TodoRepository {
           todo.finishedAt,
         ),
     );
+
+    return new TodoListDto(items);
   }
 
   async findTodobySpecifiedFieldsAndExcludeDoneTodo(
     id: number,
     spesifiedFilelds: (keyof Todo)[],
-  ): Promise<Todo[]> {
+  ): Promise<TodoListDto> {
     const todoList =
       await this.prisma.findTodoExcludeSpecifiedFieldsAndExcludeDoneTodo(
         id,
         spesifiedFilelds,
       );
-    return todoList.map(
+    const items = todoList.map(
       (todo) =>
-        new Todo(
+        new Item(
           todo.id,
           todo.title,
           todo.status,
@@ -95,6 +98,8 @@ export class TodoRepositoryImpl implements TodoRepository {
           todo.finishedAt,
         ),
     );
+
+    return new TodoListDto(items);
   }
 
   async insert(todo: AddTodoDto): Promise<Todo> {
