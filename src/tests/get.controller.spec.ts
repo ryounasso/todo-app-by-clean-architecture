@@ -3,7 +3,7 @@ import { GetController } from '../interfaceAdapters/controllers/get.controller';
 import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
 import { GetOutputForm } from '../interfaceAdapters/controllers/get.outputform';
 import { TodoDto } from '../usecases/todo.dto';
-import { TodoDxoImpl } from '../usecases/todo.dxoImpl';
+import { TodoDxoImpl } from '../usecases/todo.factoryImpl';
 import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
 
 const mockTodoRepository = () => ({

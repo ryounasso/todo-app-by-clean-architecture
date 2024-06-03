@@ -5,7 +5,7 @@ import { AddTodoDto as AdapterAddTodoDto } from '../interfaceAdapters/repositori
 import { UpdateTodoDto } from './update.todo.dto';
 import { UpdateTodoDto as AdapterUpdateTodoDto } from '../interfaceAdapters/repositories/updateTodo.dto';
 
-export interface TodoDxo {
+export interface TodoFactory {
   convertToTodoDto(todoDto: TodoDto): AdapterTodoDto;
 
   convertToAddTodoDto(addTodoDto: AddTodoDto): AdapterAddTodoDto;

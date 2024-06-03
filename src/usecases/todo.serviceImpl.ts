@@ -3,7 +3,7 @@ import { TodoService } from './todo.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { TodoDto } from './todo.dto';
 import { AddTodoDto } from './addTodo.dto';
-import { TodoDxo } from './todo.dxo';
+import { TodoFactory } from './todo.factory';
 import { UpdateTodoDto } from './update.todo.dto';
 import { StartDto } from './start.dto';
 import { DoneDto } from './done.dto';
@@ -14,7 +14,7 @@ import { TodoListDto } from './todoListDto.dto';
 export class TodoServiceImpl implements TodoService {
   constructor(
     @Inject('TodoRepository') private readonly todoRepository: TodoRepository,
-    @Inject('UsecaseTodoDxo') private readonly todoDxo: TodoDxo,
+    @Inject('UsecaseTodoFactory') private readonly todoFactory: TodoFactory,
   ) {}
 
   async getTodoList(
@@ -60,7 +60,7 @@ export class TodoServiceImpl implements TodoService {
 
   async addTodo(addTodoDto: AddTodoDto): Promise<TodoDto> {
     const todo = await this.todoRepository.insert(
-      this.todoDxo.convertToAddTodoDto(addTodoDto),
+      this.todoFactory.convertToAddTodoDto(addTodoDto),
     );
     return new TodoDto(
       todo.getId(),
@@ -74,7 +74,7 @@ export class TodoServiceImpl implements TodoService {
 
   async setTodo(updateTodoDto: UpdateTodoDto): Promise<TodoDto> {
     const todo = await this.todoRepository.update(
-      this.todoDxo.convertToUpdateTodoDto(
+      this.todoFactory.convertToUpdateTodoDto(
         new UpdateTodoDto(updateTodoDto.getId(), updateTodoDto.getTitle()),
       ),
     );
