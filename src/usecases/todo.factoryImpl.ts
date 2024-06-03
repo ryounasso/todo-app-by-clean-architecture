@@ -1,12 +1,12 @@
 import { TodoDto } from './todo.dto';
-import { TodoDxo } from './todo.dxo';
+import { TodoFactory } from './todo.factory';
 import { TodoDto as AdapterTodoDto } from '../interfaceAdapters/todo.dto';
 import { AddTodoDto } from './addTodo.dto';
 import { AddTodoDto as AdapterAddTodoDto } from '../interfaceAdapters/repositories/addTodo.dto';
 import { UpdateTodoDto } from './update.todo.dto';
 import { UpdateTodoDto as AdapterUpdateTodoDto } from '../interfaceAdapters/repositories/updateTodo.dto';
 
-export class TodoDxoImpl implements TodoDxo {
+export class TodoFactoryImpl implements TodoFactory {
   convertToTodoDto(todoDto: TodoDto): AdapterTodoDto {
     return new AdapterTodoDto(
       todoDto.getId(),
