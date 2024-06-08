@@ -2,8 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
 import { TodoDto } from '../usecases/todo.dto';
 import { AddTodoDto } from '../usecases/addTodo.dto';
-import { TodoDxoImpl } from '../usecases/todo.factoryImpl';
-import { TodoDxoImpl as AdapterTodoDxoImpl } from '../interfaceAdapters/todo.dxoImpl';
+import { TodoFactoryImpl } from '../usecases/todo.factoryImpl';
 import { UpdateTodoDto } from '../usecases/update.todo.dto';
 
 const mockTodoRepository = () => ({
@@ -24,8 +23,7 @@ describe('TodoService', () => {
       providers: [
         { provide: 'TodoService', useClass: TodoServiceImpl },
         { provide: 'TodoRepository', useFactory: mockTodoRepository },
-        { provide: 'UsecaseTodoDxo', useClass: TodoDxoImpl },
-        { provide: 'AdapterTodoDxo', useClass: AdapterTodoDxoImpl },
+        { provide: 'UsecaseTodoDxo', useClass: TodoFactoryImpl },
       ],
     }).compile();
 
