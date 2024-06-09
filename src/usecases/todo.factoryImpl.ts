@@ -3,7 +3,6 @@ import { TodoFactory } from './todo.factory';
 import { TodoDto as AdapterTodoDto } from '../interfaceAdapters/todo.dto';
 import { AddTodoDto } from './addTodo.dto';
 import { AddTodoDto as AdapterAddTodoDto } from '../interfaceAdapters/repositories/addTodo.dto';
-import { UpdateTodoDto } from './update.todo.dto';
 import { UpdateTodoDto as AdapterUpdateTodoDto } from '../interfaceAdapters/repositories/updateTodo.dto';
 
 export class TodoFactoryImpl implements TodoFactory {
@@ -22,11 +21,7 @@ export class TodoFactoryImpl implements TodoFactory {
     return new AdapterAddTodoDto(addTodoDto.getUserId(), addTodoDto.getTitle());
   }
 
-  convertToUpdateTodoDto(todoDto: UpdateTodoDto): AdapterUpdateTodoDto {
-    return new AdapterUpdateTodoDto(
-      todoDto.getId(),
-      todoDto.getTitle(),
-      todoDto.getStatus(),
-    );
+  convertToUpdateTodoDto(id: number, title: string): AdapterUpdateTodoDto {
+    return new AdapterUpdateTodoDto(id, title);
   }
 }

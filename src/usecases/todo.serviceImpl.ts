@@ -80,11 +80,9 @@ export class TodoServiceImpl implements TodoService {
     );
   }
 
-  async setTodo(updateTodoDto: UpdateTodoDto): Promise<TodoDto> {
+  async updateTitle(id: number, newTitle: string): Promise<TodoDto> {
     const todo = await this.todoRepository.update(
-      this.todoFactory.convertToUpdateTodoDto(
-        new UpdateTodoDto(updateTodoDto.getId(), updateTodoDto.getTitle()),
-      ),
+      this.todoFactory.convertToUpdateTodoDto(id, newTitle),
     );
 
     return new TodoDto(
