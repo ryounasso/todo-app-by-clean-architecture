@@ -23,6 +23,7 @@ export class TodoServiceImpl implements TodoService {
     exclude_done_todo?: boolean,
   ): Promise<TodoListDto> {
     let todoList;
+
     if (exclude_done_todo) {
       todoList = await this.todoRepository.findTodoListExcludeDone(userId);
     } else {
@@ -30,33 +31,40 @@ export class TodoServiceImpl implements TodoService {
     }
 
     if (fields.length > 0) {
-      if (exclude_done_todo) {
-        return await this.todoRepository.findTodobySpecifiedFieldsAndExcludeDoneTodo(
-          userId,
-          fields,
+      const items = todoList.map((todo) => {
+        return new TodoListDto.Item(
+          this.isInFields(fields, 'id') ? todo.getId() : undefined,
+          this.isInFields(fields, 'title') ? todo.getTitle() : undefined,
+          this.isInFields(fields, 'status') ? todo.getStatus() : undefined,
+          this.isInFields(fields, 'userId') ? todo.getUserId() : undefined,
+          this.isInFields(fields, 'createdAt')
+            ? todo.getCreatedAt()
+            : undefined,
+          this.isInFields(fields, 'finishedAt')
+            ? todo.getFinishedAt()
+            : undefined,
         );
-      } else {
-        return await this.todoRepository.findTodoListbySpecifiedFields(
-          userId,
-          fields,
-        );
-      }
+      });
+      return new TodoListDto(items);
     }
 
-    const items = todoList.map(
-      (todo) =>
-        new TodoListDto.Item(
-          todo.getId(),
-          todo.getTitle(),
-          todo.getStatus(),
-          todo.getUserId(),
-          todo.getCreatedAt(),
-          todo.getFinishedAt(),
-        ),
-    );
+    const items = todoList.map((todo) => {
+      return new TodoListDto.Item(
+        todo.getId(),
+        todo.getTitle(),
+        todo.getStatus(),
+        todo.getUserId(),
+        todo.getCreatedAt(),
+        todo.getFinishedAt(),
+      );
+    });
 
     return new TodoListDto(items);
   }
+
+  private isInFields = (fields: string[], key: string) => {
+    return fields.includes(key);
+  };
 
   async addTodo(addTodoDto: AddTodoDto): Promise<TodoDto> {
     const todo = await this.todoRepository.insert(
