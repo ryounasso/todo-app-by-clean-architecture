@@ -4,7 +4,7 @@ import { DoneDto } from './done.dto';
 import { TodoListDto } from './todoListDto.dto';
 import { StartDto } from './start.dto';
 import { TodoDto } from './todo.dto';
-import { UpdateTodoDto } from './update.todo.dto';
+import { TodoTitleDto } from './todoTitle.dto';
 
 export interface TodoService {
   getTodoList(
@@ -15,7 +15,7 @@ export interface TodoService {
 
   addTodo(addTodoDto: AddTodoDto): Promise<TodoDto>;
 
-  setTodo(todoDto: UpdateTodoDto): Promise<TodoDto>;
+  updateTitle(id: number, newTitle: string): Promise<TodoTitleDto>;
 
   startTodo(id: number): Promise<StartDto>;
 

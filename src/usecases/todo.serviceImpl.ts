@@ -9,6 +9,7 @@ import { StartDto } from './start.dto';
 import { DoneDto } from './done.dto';
 import { Todo } from '../entities/todo';
 import { TodoListDto } from './todoListDto.dto';
+import { TodoTitleDto } from './todoTitle.dto';
 
 @Injectable()
 export class TodoServiceImpl implements TodoService {
@@ -80,21 +81,15 @@ export class TodoServiceImpl implements TodoService {
     );
   }
 
-  async setTodo(updateTodoDto: UpdateTodoDto): Promise<TodoDto> {
-    const todo = await this.todoRepository.update(
-      this.todoFactory.convertToUpdateTodoDto(
-        new UpdateTodoDto(updateTodoDto.getId(), updateTodoDto.getTitle()),
-      ),
+  async updateTitle(id: number, newTitle: string): Promise<TodoTitleDto> {
+    const todo = await this.todoRepository.findById(id);
+    todo.updateTitle(newTitle);
+
+    const updatedTodo = await this.todoRepository.update(
+      this.todoFactory.convertToUpdateTodoDto(id, newTitle),
     );
 
-    return new TodoDto(
-      todo.getId(),
-      todo.getTitle(),
-      todo.getUserId(),
-      todo.getStatus(),
-      todo.getCreatedAt(),
-      todo.getFinishedAt(),
-    );
+    return new TodoTitleDto(updatedTodo.getId(), updatedTodo.getTitle());
   }
 
   async startTodo(id: number): Promise<StartDto> {
