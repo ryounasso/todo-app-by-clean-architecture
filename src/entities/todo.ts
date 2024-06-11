@@ -46,6 +46,13 @@ export class Todo {
     return this.finishedAt;
   }
 
+  public updateTitle(newTitle: string): void {
+    if (newTitle.length <= 0) {
+      throw new Error('title should not empty');
+    }
+    this.title = newTitle;
+  }
+
   public start(): void {
     this.status = 'doing';
   }
