@@ -3,7 +3,7 @@ import { TodoServiceImpl } from '../usecases/todo.serviceImpl';
 import { TodoDto } from '../usecases/todo.dto';
 import { AddTodoDto } from '../usecases/addTodo.dto';
 import { TodoFactoryImpl } from '../usecases/todo.factoryImpl';
-import { UpdateTodoDto } from '../usecases/update.todo.dto';
+import { UpdateTodoDto } from '../usecases/updateTodo.dto';
 
 const mockTodoRepository = () => ({
   findById: jest.fn(),
