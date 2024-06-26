@@ -15,9 +15,10 @@ do
 echo "Choose an action:"
 echo "1. Get todo list"
 echo "2. Create todo"
-echo "3. Update todo"
+echo "3. Change todo title"
 echo "4. Start todo"
 echo "5. Finish todo"
+echo "6. Exit"
 read -p "Enter the number of the action: " action
 
 # アクションに基づいてAPIのURLを決定
@@ -77,6 +78,10 @@ case $action in
     read -p "Enter todo_id: " todo_id
 
     json_data="{\"user_id\": \"$user_id\", \"id\": \"$todo_id\"}"
+    ;;
+  6)
+    echo "Exiting..."
+    exit 0
     ;;
   *)
     echo "Invalid action"
