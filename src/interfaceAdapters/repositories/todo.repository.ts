@@ -1,5 +1,4 @@
 import { AddTodoDto } from './addTodo.dto';
-import { UpdateTodoDto } from './updateTodo.dto';
 import { Todo } from '../../entities/todo';
 
 export interface TodoRepository {
@@ -11,5 +10,5 @@ export interface TodoRepository {
 
   insert(todo: AddTodoDto): Promise<Todo>;
 
-  update(todo: UpdateTodoDto): Promise<Todo>;
+  update(todo: Todo): Promise<Todo>;
 }

@@ -21,6 +21,6 @@ model Todo {
   title      String
   createdAt  DateTime  @default(now())
   finishedAt DateTime?
-  status     String    @default("ready")
+  status     String
   User       User      @relation(fields: [userId], references: [id])
 }

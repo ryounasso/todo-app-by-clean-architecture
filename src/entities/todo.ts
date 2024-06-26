@@ -59,5 +59,6 @@ export class Todo {
 
   public done(): void {
     this.status = 'done';
+    this.finishedAt = new Date();
   }
 }

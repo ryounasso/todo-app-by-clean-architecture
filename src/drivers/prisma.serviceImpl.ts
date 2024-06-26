@@ -1,7 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { Models, UpdateTodo } from './prisma.service';
+import { Models } from './prisma.service';
 import { AddTodoDto } from '../interfaceAdapters/repositories/addTodo.dto';
+import { UpdateTodoDto } from 'src/interfaceAdapters/repositories/updateTodo.dto';
 
 @Injectable()
 export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {
@@ -51,11 +52,15 @@ export class PrismaServiceImpl extends PrismaClient implements OnModuleInit {
 
   async insertTodo(addTodoDto: AddTodoDto) {
     return await this.todo.create({
-      data: { title: addTodoDto.getTitle(), userId: addTodoDto.getUserId() },
+      data: {
+        title: addTodoDto.getTitle(),
+        userId: addTodoDto.getUserId(),
+        status: addTodoDto.getStatus(),
+      },
     });
   }
 
-  async updateTodo(todo: UpdateTodo) {
+  async updateTodo(todo: UpdateTodoDto) {
     return await this.todo.update({
       where: { id: todo.id },
       data: todo,

@@ -1,1 +1,1 @@
-export type StatusType = 'untacched' | 'doing' | 'done';
+export type StatusType = 'ready' | 'doing' | 'done';
