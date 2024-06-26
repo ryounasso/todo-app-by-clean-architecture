@@ -5,7 +5,6 @@ import { AddController } from './interfaceAdapters/controllers/add.controller';
 import { TodoRepositoryImpl } from './interfaceAdapters/repositories/todo.repositoryImpl';
 import { TodoFactoryImpl } from './usecases/todo.factoryImpl';
 import { UpdateController } from './interfaceAdapters/controllers/update.controller';
-import { PrismaServiceImpl } from './drivers/prisma.serviceImpl';
 import { PostController } from './interfaceAdapters/controllers/post.controller';
 
 @Module({
@@ -24,7 +23,6 @@ import { PostController } from './interfaceAdapters/controllers/post.controller'
       provide: 'UsecaseTodoFactory',
       useClass: TodoFactoryImpl,
     },
-    { provide: 'PrismaService', useClass: PrismaServiceImpl },
   ],
 })
 export class TodoModule {}

@@ -1,20 +1,20 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { TodoRepository } from './todo.repository';
 import { AddTodoDto } from './addTodo.dto';
-import { PrismaService } from '../../drivers/prisma.service';
-import { UpdateTodoDto } from './updateTodo.dto';
 import { Todo } from '../../entities/todo';
-
-// prisma を直接参照してよい
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
-export class TodoRepositoryImpl implements TodoRepository {
-  constructor(
-    @Inject('PrismaService') private readonly prisma: PrismaService,
-  ) {}
+export class TodoRepositoryImpl
+  extends PrismaClient
+  implements OnModuleInit, TodoRepository
+{
+  async onModuleInit() {
+    await this.$connect();
+  }
 
   async findById(id: number): Promise<Todo> {
-    const todo = await this.prisma.findTodoByUserId(id);
+    const todo = await this.todo.findUnique({ where: { id } });
     if (!todo) throw new Error('Todo not found');
     return new Todo(
       todo.id,
@@ -27,7 +27,10 @@ export class TodoRepositoryImpl implements TodoRepository {
   }
 
   async findTodoList(userId: number): Promise<Todo[]> {
-    const todoList = await this.prisma.findTodoListByUserId(userId);
+    const todoList = await await this.todo.findMany({
+      where: { userId: userId },
+      orderBy: { id: 'asc' },
+    });
     return todoList.map(
       (todo) =>
         new Todo(
@@ -42,7 +45,10 @@ export class TodoRepositoryImpl implements TodoRepository {
   }
 
   async findTodoListExcludeDone(userId: number): Promise<Todo[]> {
-    const todoList = await this.prisma.findTodoListExcludeDone(userId);
+    const todoList = await this.todo.findMany({
+      where: { userId: userId, status: { not: 'done' } },
+      orderBy: { id: 'asc' },
+    });
     return todoList.map(
       (todo) =>
         new Todo(
@@ -57,7 +63,13 @@ export class TodoRepositoryImpl implements TodoRepository {
   }
 
   async insert(todo: AddTodoDto): Promise<Todo> {
-    const insertedTodo = await this.prisma.insertTodo(todo);
+    const insertedTodo = await this.todo.create({
+      data: {
+        title: todo.getTitle(),
+        userId: todo.getUserId(),
+        status: todo.getStatus(),
+      },
+    });
     return new Todo(
       insertedTodo.id,
       insertedTodo.title,
@@ -69,14 +81,16 @@ export class TodoRepositoryImpl implements TodoRepository {
   }
 
   async update(todo: Todo): Promise<Todo> {
-    const updatedTodo = await this.prisma.updateTodo(
-      new UpdateTodoDto(
-        todo.getId(),
-        todo.getTitle(),
-        todo.getStatus(),
-        todo.getFinishedAt(),
-      ),
-    );
+    const updatedTodo = await this.todo.update({
+      where: { id: todo.getId() },
+      data: {
+        title: todo.getTitle(),
+        status: todo.getStatus(),
+        userId: todo.getUserId(),
+        createdAt: todo.getCreatedAt(),
+        finishedAt: todo.getFinishedAt(),
+      },
+    });
 
     return new Todo(
       updatedTodo.id,
