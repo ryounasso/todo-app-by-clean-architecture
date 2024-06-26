@@ -4,11 +4,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { TodoDto } from './todo.dto';
 import { AddTodoDto } from './addTodo.dto';
 import { TodoFactory } from './todo.factory';
-import { UpdateTodoDto } from './update.todo.dto';
 import { StartDto } from './start.dto';
 import { DoneDto } from './done.dto';
 import { Todo } from '../entities/todo';
-import { TodoListDto } from './todoListDto.dto';
+import { TodoListDto } from './todoList.dto';
 import { TodoTitleDto } from './todoTitle.dto';
 
 @Injectable()
@@ -85,9 +84,7 @@ export class TodoServiceImpl implements TodoService {
     const todo = await this.todoRepository.findById(id);
     todo.updateTitle(newTitle);
 
-    const updatedTodo = await this.todoRepository.update(
-      this.todoFactory.convertToUpdateTodoDto(id, newTitle),
-    );
+    const updatedTodo = await this.todoRepository.update(todo);
 
     return new TodoTitleDto(updatedTodo.getId(), updatedTodo.getTitle());
   }
@@ -96,9 +93,7 @@ export class TodoServiceImpl implements TodoService {
     const todo = await this.todoRepository.findById(id);
     todo.start();
 
-    const updatedTodo = await this.todoRepository.update(
-      new UpdateTodoDto(todo.getId(), todo.getTitle(), todo.getStatus()),
-    );
+    const updatedTodo = await this.todoRepository.update(todo);
     return new StartDto(updatedTodo.getId(), updatedTodo.getStatus());
   }
 
@@ -106,14 +101,7 @@ export class TodoServiceImpl implements TodoService {
     const todo = await this.todoRepository.findById(id);
     todo.done();
 
-    const updatedTodo = await this.todoRepository.update(
-      new UpdateTodoDto(
-        todo.getId(),
-        todo.getTitle(),
-        todo.getStatus(),
-        new Date(),
-      ),
-    );
+    const updatedTodo = await this.todoRepository.update(todo);
     return new DoneDto(updatedTodo.getId(), updatedTodo.getStatus());
   }
 }

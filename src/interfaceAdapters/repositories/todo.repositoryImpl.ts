@@ -5,6 +5,8 @@ import { PrismaService } from '../../drivers/prisma.service';
 import { UpdateTodoDto } from './updateTodo.dto';
 import { Todo } from '../../entities/todo';
 
+// prisma を直接参照してよい
+
 @Injectable()
 export class TodoRepositoryImpl implements TodoRepository {
   constructor(
@@ -66,10 +68,15 @@ export class TodoRepositoryImpl implements TodoRepository {
     );
   }
 
-  async update(updateTodoDto: UpdateTodoDto): Promise<Todo> {
-    const updateValue = this.createUpdateObjectExcludeNullValue(updateTodoDto);
-    if (!updateValue) throw new Error('Invalid update value');
-    const updatedTodo = await this.prisma.updateTodo(updateValue);
+  async update(todo: Todo): Promise<Todo> {
+    const updatedTodo = await this.prisma.updateTodo(
+      new UpdateTodoDto(
+        todo.getId(),
+        todo.getTitle(),
+        todo.getStatus(),
+        todo.getFinishedAt(),
+      ),
+    );
 
     return new Todo(
       updatedTodo.id,
@@ -79,22 +86,5 @@ export class TodoRepositoryImpl implements TodoRepository {
       updatedTodo.createdAt,
       updatedTodo.finishedAt,
     );
-  }
-
-  private createUpdateObjectExcludeNullValue(updateTodoDto: UpdateTodoDto) {
-    const obj: {
-      id: number;
-      title?: string;
-      status?: string;
-      finishedAt?: Date;
-    } = { id: updateTodoDto.getId() };
-    if (updateTodoDto.getTitle() !== null) obj.title = updateTodoDto.getTitle();
-    if (updateTodoDto.getStatus() !== null) {
-      obj.status = updateTodoDto.getStatus();
-    }
-    if (updateTodoDto.getFinishedAt() !== null)
-      obj.finishedAt = updateTodoDto.getFinishedAt();
-
-    return obj;
   }
 }

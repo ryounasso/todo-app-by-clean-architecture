@@ -2,13 +2,7 @@ import { PrismaClient, Todo } from '@prisma/client';
 import { AddTodoDto } from '../interfaceAdapters/repositories/addTodo.dto';
 import { StatusType } from '../entities/status.type';
 import { Todo as TodoEntity } from '../entities/todo';
-
-export type UpdateTodo = {
-  id: number;
-  title?: string;
-  status?: string;
-  finishedAt?: Date;
-};
+import { UpdateTodoDto } from 'src/interfaceAdapters/repositories/updateTodo.dto';
 
 export type UpdateStatus = {
   todoId: number;
@@ -41,5 +35,5 @@ export interface PrismaService {
 
   insertTodo(addTodoDto: AddTodoDto): Promise<Todo>;
 
-  updateTodo(todo: UpdateTodo): Promise<Todo>;
+  updateTodo(todo: UpdateTodoDto): Promise<Todo>;
 }

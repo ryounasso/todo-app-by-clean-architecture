@@ -1,7 +1,7 @@
 import { Todo } from '../entities/todo';
 import { AddTodoDto } from './addTodo.dto';
 import { DoneDto } from './done.dto';
-import { TodoListDto } from './todoListDto.dto';
+import { TodoListDto } from './todoList.dto';
 import { StartDto } from './start.dto';
 import { TodoDto } from './todo.dto';
 import { TodoTitleDto } from './todoTitle.dto';

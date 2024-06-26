@@ -1,10 +1,15 @@
 export class UpdateTodoDto {
   id: number;
-  title?: string;
-  status?: string;
-  finishedAt?: Date;
+  title: string;
+  status: string;
+  finishedAt: Date | null;
 
-  constructor(id: number, title?: string, status?: string, finishedAt?: Date) {
+  constructor(
+    id: number,
+    title: string,
+    status: string,
+    finishedAt: Date | null,
+  ) {
     this.id = id;
     this.title = title;
     this.status = status;
@@ -15,15 +20,15 @@ export class UpdateTodoDto {
     return this.id;
   }
 
-  getTitle(): string | undefined {
+  getTitle(): string {
     return this.title;
   }
 
-  getStatus(): string | undefined {
+  getStatus(): string {
     return this.status;
   }
 
-  getFinishedAt(): Date | undefined {
+  getFinishedAt(): Date | null {
     return this.finishedAt;
   }
 }
