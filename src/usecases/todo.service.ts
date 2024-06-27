@@ -1,4 +1,3 @@
-import { Todo } from '../entities/todo';
 import { AddTodoDto } from './addTodo.dto';
 import { DoneDto } from './done.dto';
 import { TodoListDto } from './todoList.dto';
@@ -9,7 +8,7 @@ import { TodoTitleDto } from './todoTitle.dto';
 export interface TodoService {
   getTodoList(
     userId: number,
-    fields: (keyof Todo)[],
+    fields?: string[],
     exclude_done_todo?: boolean,
   ): Promise<TodoListDto>;
 
