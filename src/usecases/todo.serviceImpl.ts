@@ -6,7 +6,6 @@ import { AddTodoDto } from './addTodo.dto';
 import { TodoFactory } from './todo.factory';
 import { StartDto } from './start.dto';
 import { DoneDto } from './done.dto';
-import { Todo } from '../entities/todo';
 import { TodoListDto } from './todoList.dto';
 import { TodoTitleDto } from './todoTitle.dto';
 
@@ -19,7 +18,7 @@ export class TodoServiceImpl implements TodoService {
 
   async getTodoList(
     userId: number,
-    fields: (keyof Todo)[],
+    fields?: string[],
     exclude_done_todo?: boolean,
   ): Promise<TodoListDto> {
     let todoList;
@@ -30,19 +29,15 @@ export class TodoServiceImpl implements TodoService {
       todoList = await this.todoRepository.findTodoList(userId);
     }
 
-    if (fields.length > 0) {
+    if (fields && fields.length > 0) {
       const items = todoList.map((todo) => {
         return new TodoListDto.Item(
-          this.isInFields(fields, 'id') ? todo.getId() : undefined,
-          this.isInFields(fields, 'title') ? todo.getTitle() : undefined,
-          this.isInFields(fields, 'status') ? todo.getStatus() : undefined,
-          this.isInFields(fields, 'userId') ? todo.getUserId() : undefined,
-          this.isInFields(fields, 'createdAt')
-            ? todo.getCreatedAt()
-            : undefined,
-          this.isInFields(fields, 'finishedAt')
-            ? todo.getFinishedAt()
-            : undefined,
+          fields.includes('id') ? todo.getId() : undefined,
+          fields.includes('title') ? todo.getTitle() : undefined,
+          fields.includes('status') ? todo.getStatus() : undefined,
+          fields.includes('userId') ? todo.getUserId() : undefined,
+          fields.includes('createdAt') ? todo.getCreatedAt() : undefined,
+          fields.includes('finishedAt') ? todo.getFinishedAt() : undefined,
         );
       });
       return new TodoListDto(items);
@@ -61,10 +56,6 @@ export class TodoServiceImpl implements TodoService {
 
     return new TodoListDto(items);
   }
-
-  private isInFields = (fields: string[], key: string) => {
-    return fields.includes(key);
-  };
 
   async addTodo(addTodoDto: AddTodoDto): Promise<TodoDto> {
     const todo = await this.todoRepository.insert(
