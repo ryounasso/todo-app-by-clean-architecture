@@ -1,6 +1,6 @@
-package com.todoapp.domain.repository;
+package com.todoapp.interfaceAdapters.repositoreies;
 
-import com.todoapp.domain.entity.Todo;
+import com.todoapp.entities.Todo;
 import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 

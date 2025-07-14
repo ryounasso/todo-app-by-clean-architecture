@@ -1,4 +1,4 @@
-package com.todoapp.infrastructure.web.controller;
+package com.todoapp.interfaceAdapters.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

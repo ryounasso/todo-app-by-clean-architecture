@@ -6,8 +6,8 @@ import com.todoapp.usecases.dto.StartDto;
 import com.todoapp.usecases.dto.TodoListDto;
 import com.todoapp.usecases.dto.TodoTitleDto;
 import com.todoapp.usecases.factory.TodoFactory;
-import com.todoapp.domain.entity.Todo;
-import com.todoapp.domain.repository.TodoRepository;
+import com.todoapp.entities.Todo;
+import com.todoapp.interfaceAdapters.repositoreies.TodoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package com.todoapp.domain.entity;
+package com.todoapp.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

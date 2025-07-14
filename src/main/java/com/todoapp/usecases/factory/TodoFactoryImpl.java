@@ -3,11 +3,9 @@ package com.todoapp.usecases.factory;
 import com.todoapp.usecases.dto.AddTodoDto;
 import com.todoapp.usecases.dto.TodoDto;
 import com.todoapp.usecases.dto.TodoListDto;
-import com.todoapp.domain.entity.Status;
-import com.todoapp.domain.entity.Todo;
+import com.todoapp.entities.Todo;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 

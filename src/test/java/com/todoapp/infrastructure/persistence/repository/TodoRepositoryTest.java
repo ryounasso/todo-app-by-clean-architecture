@@ -1,7 +1,8 @@
 package com.todoapp.infrastructure.persistence.repository;
 
-import com.todoapp.domain.entity.Status;
-import com.todoapp.domain.entity.Todo;
+import com.todoapp.entities.Status;
+import com.todoapp.entities.Todo;
+import com.todoapp.interfaceAdapters.repositoreies.TodoRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

@@ -1,6 +1,6 @@
 package com.todoapp.usecases.dto;
 
-import com.todoapp.domain.entity.Status;
+import com.todoapp.entities.Status;
 import java.time.LocalDateTime;
 
 /**

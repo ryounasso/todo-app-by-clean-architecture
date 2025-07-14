@@ -1,4 +1,4 @@
-package com.todoapp.domain.entity;
+package com.todoapp.interfaceAdapters.repositoreies;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

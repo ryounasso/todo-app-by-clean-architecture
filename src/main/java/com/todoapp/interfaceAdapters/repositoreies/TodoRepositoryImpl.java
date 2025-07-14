@@ -1,7 +1,7 @@
-package com.todoapp.infrastructure.persistence.repository;
+package com.todoapp.interfaceAdapters.repositoreies;
 
-import com.todoapp.domain.entity.Todo;
-import com.todoapp.domain.repository.TodoRepository;
+import com.todoapp.entities.Status;
+import com.todoapp.entities.Todo;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,7 +24,7 @@ public interface TodoRepositoryImpl extends TodoRepository {
     /**
      * ユーザーIDとステータスでTodo一覧を取得
      */
-    List<Todo> findByUserIdAndStatus(long userId, com.todoapp.domain.entity.Status status);
+    List<Todo> findByUserIdAndStatus(long userId, Status status);
     
     /**
      * 指定されたIDのTodoを取得（存在しない場合はnull）

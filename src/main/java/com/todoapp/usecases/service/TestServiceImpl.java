@@ -1,7 +1,7 @@
 package com.todoapp.usecases.service;
 
 import org.springframework.stereotype.Service;
-import com.todoapp.infrastructure.persistence.repository.TestRepository;
+import com.todoapp.interfaceAdapters.repositoreies.TestRepository;
 
 /**
  * コンストラクタインジェクション確認用のテストサービス実装

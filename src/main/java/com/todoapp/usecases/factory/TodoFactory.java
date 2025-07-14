@@ -3,7 +3,7 @@ package com.todoapp.usecases.factory;
 import com.todoapp.usecases.dto.AddTodoDto;
 import com.todoapp.usecases.dto.TodoDto;
 import com.todoapp.usecases.dto.TodoListDto;
-import com.todoapp.domain.entity.Todo;
+import com.todoapp.entities.Todo;
 
 import java.util.List;
 
