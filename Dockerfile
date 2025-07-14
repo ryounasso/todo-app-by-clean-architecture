@@ -1,14 +1,43 @@
-FROM node:20.13.1-slim
-RUN apt-get update && \
-    apt-get install -y locales curl procps
-RUN locale-gen ja_JP.UTF-8
-RUN localedef -f UTF-8 -i ja_JP ja_JP
-ENV LANG=ja_JP.UTF-8
+FROM eclipse-temurin:21-jdk-alpine
+
+# Set timezone
 ENV TZ=Asia/Tokyo
+
+# Set working directory
 WORKDIR /app
 
-RUN npm install -g pnpm
+# Copy gradle files
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
 
-COPY package.json pnpm-lock.yaml ./
+# Make gradlew executable
+RUN chmod +x ./gradlew
 
-RUN pnpm install
+# Download dependencies
+RUN ./gradlew dependencies --no-daemon
+
+# Copy source code
+COPY src src
+
+# Build the application
+RUN ./gradlew build --no-daemon
+
+# Create runtime image
+FROM eclipse-temurin:21-jre-alpine
+
+# Set timezone
+ENV TZ=Asia/Tokyo
+
+# Set working directory
+WORKDIR /app
+
+# Copy the built jar from the build stage
+COPY --from=0 /app/build/libs/*.jar app.jar
+
+# Expose port
+EXPOSE 3000
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -2,35 +2,34 @@ version: '3.7'
 services:
   app:
     build: .
-    tty: true
     networks:
       - app_network
     ports:
       - 3000:3000
-      - 5555:5555
-    volumes:
-      - .:/app
     depends_on:
       - db
-    command: bash -c "pnpm run start & npx prisma studio"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/todo_app
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+    restart: unless-stopped
   db:
     image: postgres:16
     hostname: db
-    env_file:
-      - .env
     networks:
       - app_network
     environment:
       - TZ=Asia/Tokyo
-      - POSTGRES_DB=$DB_NAME
-      - POSTGRES_USER=$DB_USER
-      - POSTGRES_PASSWORD=$DB_PASS
+      - POSTGRES_DB=todo_app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
       - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./sql:/docker-entrypoint-initdb.d
+    restart: unless-stopped
 
 networks:
   app_network:
