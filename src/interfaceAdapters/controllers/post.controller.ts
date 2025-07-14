@@ -20,7 +20,7 @@ export class PostController {
   @Post('start.json')
   @UsePipes(new ValidationPipe({ transform: true }))
   async run(@Body() body: UpdateInputForm): Promise<StartDto> {
-    return await this.todoService.startTodo(Number.parseInt(body.getId()));
+    return await this.todoService.start(Number.parseInt(body.getId()));
   }
 
   @Post('done.json')

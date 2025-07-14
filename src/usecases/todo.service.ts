@@ -16,7 +16,7 @@ export interface TodoService {
 
   updateTitle(id: number, newTitle: string): Promise<TodoTitleDto>;
 
-  startTodo(id: number): Promise<StartDto>;
+  start(id: number): Promise<StartDto>;
 
   done(id: number): Promise<DoneDto>;
 }

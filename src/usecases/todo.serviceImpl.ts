@@ -80,7 +80,7 @@ export class TodoServiceImpl implements TodoService {
     return new TodoTitleDto(updatedTodo.getId(), updatedTodo.getTitle());
   }
 
-  async startTodo(id: number): Promise<StartDto> {
+  async start(id: number): Promise<StartDto> {
     const todo = await this.todoRepository.findById(id);
     todo.start();
 
