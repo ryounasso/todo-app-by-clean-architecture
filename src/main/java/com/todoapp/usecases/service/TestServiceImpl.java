@@ -1,4 +1,4 @@
-package com.todoapp.application.service;
+package com.todoapp.usecases.service;
 
 import org.springframework.stereotype.Service;
 import com.todoapp.infrastructure.persistence.repository.TestRepository;

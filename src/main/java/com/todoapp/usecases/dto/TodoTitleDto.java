@@ -1,4 +1,4 @@
-package com.todoapp.application.dto;
+package com.todoapp.usecases.dto;
 
 /**
  * Todoタイトル更新用のDTO
