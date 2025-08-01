@@ -1,4 +1,4 @@
-package com.todoapp.interfaceAdapters.repositoreies;
+package com.todoapp.interfaceAdapters.repositories;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

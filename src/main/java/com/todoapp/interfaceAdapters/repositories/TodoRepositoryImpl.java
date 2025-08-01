@@ -1,4 +1,4 @@
-package com.todoapp.interfaceAdapters.repositoreies;
+package com.todoapp.interfaceAdapters.repositories;
 
 import com.todoapp.entities.Status;
 import com.todoapp.entities.Todo;
