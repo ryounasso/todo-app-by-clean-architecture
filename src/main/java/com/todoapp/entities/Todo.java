@@ -49,5 +49,6 @@ public class Todo {
     
     public void done() {
         this.status = Status.DONE;
+        this.finishedAt = LocalDateTime.now();
     }
 }

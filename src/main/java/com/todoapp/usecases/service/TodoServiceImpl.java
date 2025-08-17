@@ -1,6 +1,7 @@
 package com.todoapp.usecases.service;
 
 import com.todoapp.entities.Status;
+import com.todoapp.interfaceAdapters.controllers.exception.TodoNotFoundException;
 import com.todoapp.interfaceAdapters.repositories.TodoRepository;
 import com.todoapp.usecases.dto.*;
 import com.todoapp.usecases.factory.TodoFactory;
@@ -53,7 +54,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void updateTitle(TodoTitleDto todoTitleDto) {
-        Todo todo = todoRepository.findById(todoTitleDto.id());
+        Todo todo = todoRepository.findById(todoTitleDto.id()).orElseThrow(() -> new TodoNotFoundException("Todo not found with id: " + todoTitleDto.id()));
         
         todo.updateTitle(todoTitleDto.title());
         todoRepository.save(todo);
@@ -61,7 +62,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void start(StartDto startDto) {
-        Todo todo = todoRepository.findById(startDto.todoId());
+        Todo todo = todoRepository.findById(startDto.todoId()).orElseThrow(() -> new TodoNotFoundException("Todo not found with id: " + startDto.todoId()));
         
         todo.start();
         todoRepository.save(todo);
@@ -69,7 +70,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void done(DoneDto doneDto) {
-        Todo todo = todoRepository.findById(doneDto.todoId());
+        Todo todo = todoRepository.findById(doneDto.todoId()).orElseThrow(() -> new TodoNotFoundException("Todo not found with id: " + doneDto.todoId()));
         
         todo.done();
         todoRepository.save(todo);

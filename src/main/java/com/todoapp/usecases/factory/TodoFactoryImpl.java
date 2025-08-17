@@ -24,7 +24,7 @@ public class TodoFactoryImpl implements TodoFactory {
                 todo.getTitle(),
                 todo.getStatus(),
                 todo.getCreatedAt(),
-                null
+                todo.getFinishedAt()
         );
     }
 
