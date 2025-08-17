@@ -1,13 +1,5 @@
 #!/bin/bash
 
-# user_id を引数で受け取る
-user_id=$1
-
-# 引数が指定されていなければ、ユーザーに user_id を入力してもらう
-if [ -z "$user_id" ]; then
-  read -p "Enter user_id: " user_id
-fi
-
 while true
 do
 
@@ -27,21 +19,21 @@ case $action in
   1)
     api_url="$base_url/todo/list.json"
     method="GET"
+    query=""
+
     # クエリパラメータを入力
-    if [ -n "$user_id" ]; then
-      query="?user_id=$user_id"
+    # doneタスクを除去するかどうか尋ねる
+    read -p "Exclude done todo? (yes/no): " exclude_done
+    if [ "$exclude_done" == "yes" ]; then
+      query="$query?exclude_done_todo=true"
+    elif [ "$exclude_done" == "no" ]; then
+      query="$query?exclude_done_todo=false"
+    fi
 
-      # doneタスクを除去するかどうか尋ねる
-      read -p "Exclude done todo? (yes/no): " exclude_done
-      if [ "$exclude_done" == "yes" ]; then
-        query="$query&exclude_done_todo=true"
-      fi
-
-      # 取得したいフィールドを尋ねる
-      read -p "Enter fields to retrieve (comma separated): " fields
-      if [ -n "$fields" ]; then
-        query="$query&fields=$fields"
-      fi
+    # 取得したいフィールドを尋ねる
+    read -p "Enter fields to retrieve (comma separated): " fields
+    if [ -n "$fields" ]; then
+      query="$query&fields=$fields"
     fi
     ;;
   2)
@@ -50,17 +42,17 @@ case $action in
 
     read -p "Enter title: " title
 
-    json_data="{\"user_id\": \"$user_id\", \"title\": \"$title\"}"
+    json_data="{\"title\": \"$title\"}"
     ;;
   3)
-    api_url="$base_url/todo.json"
+    api_url="$base_url/todo/title.json"
     method="PUT"
 
     read -p "Enter todo_id: " todo_id
 
     read -p "Enter title: " title
 
-    json_data="{\"user_id\": \"$user_id\", \"id\": \"$todo_id\", \"title\": \"$title\"}"
+    json_data="{\"todoId\": \"$todo_id\", \"title\": \"$title\"}"
     ;;
   4)
     api_url="$base_url/todo/start.json"
@@ -68,7 +60,7 @@ case $action in
 
     read -p "Enter todo_id: " todo_id
 
-    json_data="{\"user_id\": \"$user_id\", \"id\": \"$todo_id\"}"
+    json_data="{\"id\": \"$todo_id\"}"
     ;;
 
   5)
@@ -77,7 +69,7 @@ case $action in
 
     read -p "Enter todo_id: " todo_id
 
-    json_data="{\"user_id\": \"$user_id\", \"id\": \"$todo_id\"}"
+    json_data="{\"id\": \"$todo_id\"}"
     ;;
   6)
     echo "Exiting..."
