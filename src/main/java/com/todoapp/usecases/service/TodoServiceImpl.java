@@ -1,17 +1,15 @@
 package com.todoapp.usecases.service;
 
+import com.todoapp.entities.Status;
 import com.todoapp.interfaceAdapters.repositories.TodoRepository;
-import com.todoapp.usecases.dto.AddTodoDto;
-import com.todoapp.usecases.dto.DoneDto;
-import com.todoapp.usecases.dto.StartDto;
-import com.todoapp.usecases.dto.TodoListDto;
-import com.todoapp.usecases.dto.TodoTitleDto;
+import com.todoapp.usecases.dto.*;
 import com.todoapp.usecases.factory.TodoFactory;
 import com.todoapp.entities.Todo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,39 +25,51 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @Transactional(readOnly = true)
-    public TodoListDto getTodoList(Long userId) {
-        List<Todo> todos = todoRepository.findByUserId(userId);
-        return todoFactory.createTodoListDto(todos);
+    public TodoListDto getTodoList(boolean exclude_done_todo, Optional<String> fields) {
+        List<Todo> result = todoRepository.findTodoList();
+
+        if (exclude_done_todo) {
+            result = result.stream().filter(t -> !t.getStatus().equals(Status.DONE)).toList();
+        }
+
+        if (fields.isPresent()) {
+            String[] fieldArray = fields.orElse("id,title,status,createdAt,finishedAt").split(",");
+
+            List<ITodoDto> todoDtoList = result.stream()
+                    .map(t -> (ITodoDto) todoFactory.createPartialTodoDto(t, fieldArray))
+                    .toList();
+
+            return new TodoListDto(todoDtoList);
+        }
+
+        return todoFactory.createTodoListDto(result);
     }
 
     @Override
-    public void addTodo(AddTodoDto addTodoDto) {
+    public Todo addTodo(AddTodoDto addTodoDto) {
         Todo todo = todoFactory.createTodo(addTodoDto);
-        todoRepository.save(todo);
+        return todoRepository.save(todo);
     }
 
     @Override
-    public void updateTitle(Long todoId, TodoTitleDto todoTitleDto) {
-        Todo todo = todoRepository.findById(todoId)
-                .orElseThrow(() -> new RuntimeException("Todo not found with id: " + todoId));
+    public void updateTitle(TodoTitleDto todoTitleDto) {
+        Todo todo = todoRepository.findById(todoTitleDto.id());
         
         todo.updateTitle(todoTitleDto.title());
         todoRepository.save(todo);
     }
 
     @Override
-    public void start(Long todoId, StartDto startDto) {
-        Todo todo = todoRepository.findById(todoId)
-                .orElseThrow(() -> new RuntimeException("Todo not found with id: " + todoId));
+    public void start(StartDto startDto) {
+        Todo todo = todoRepository.findById(startDto.todoId());
         
         todo.start();
         todoRepository.save(todo);
     }
 
     @Override
-    public void done(Long todoId, DoneDto doneDto) {
-        Todo todo = todoRepository.findById(todoId)
-                .orElseThrow(() -> new RuntimeException("Todo not found with id: " + todoId));
+    public void done(DoneDto doneDto) {
+        Todo todo = todoRepository.findById(doneDto.todoId());
         
         todo.done();
         todoRepository.save(todo);

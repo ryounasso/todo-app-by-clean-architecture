@@ -1,13 +1,11 @@
 package com.todoapp.usecases.factory;
 
-import com.todoapp.usecases.dto.AddTodoDto;
-import com.todoapp.usecases.dto.TodoDto;
-import com.todoapp.usecases.dto.TodoListDto;
+import com.todoapp.usecases.dto.*;
 import com.todoapp.entities.Todo;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class TodoFactoryImpl implements TodoFactory {
@@ -15,7 +13,6 @@ public class TodoFactoryImpl implements TodoFactory {
     @Override
     public Todo createTodo(AddTodoDto addTodoDto) {
         return new Todo(
-                addTodoDto.userId(),
                 addTodoDto.title()
         );
     }
@@ -24,21 +21,32 @@ public class TodoFactoryImpl implements TodoFactory {
     public TodoDto createTodoDto(Todo todo) {
         return new TodoDto(
                 todo.getId(),
-                todo.getUserId(),
                 todo.getTitle(),
                 todo.getStatus(),
                 todo.getCreatedAt(),
-                todo.getUpdatedAt(),
-                todo.getStartedAt(),
-                todo.getCompletedAt()
+                null
+        );
+    }
+
+    @Override
+    public PartialTodoDto createPartialTodoDto(Todo todo, String[] fields) {
+        List<String> fieldList = Arrays.asList(fields);
+
+        return new PartialTodoDto(
+                fieldList.contains("id") ? todo.getId() : null,
+                fieldList.contains("title") ? todo.getTitle() : null,
+                fieldList.contains("status") ? todo.getStatus() : null,
+                fieldList.contains("createdAt") ? todo.getCreatedAt() : null,
+                fieldList.contains("finishedAt") ? todo.getFinishedAt() : null
         );
     }
 
     @Override
     public TodoListDto createTodoListDto(List<Todo> todos) {
-        List<TodoDto> todoDtos = todos.stream()
+        List<ITodoDto> todoDtos = todos.stream()
                 .map(this::createTodoDto)
-                .collect(Collectors.toList());
+                .map(ITodoDto.class::cast)
+                .toList();
         
         return new TodoListDto(todoDtos);
     }

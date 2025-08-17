@@ -11,11 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @ComponentScan(basePackages = "com.todoapp")
-@EnableJpaRepositories(basePackages = "com.todoapp.infrastructure.persistence.repository")
+@EnableJpaRepositories(basePackages = "com.todoapp.interfaceAdapters.repositories")
 @EnableTransactionManagement
-public class TodoConfig {
-    
-    // 必要に応じてBean定義を追加
-    // 例: データソース、JPA設定、セキュリティ設定など
-    
+public class TodoConfig {    
 } 

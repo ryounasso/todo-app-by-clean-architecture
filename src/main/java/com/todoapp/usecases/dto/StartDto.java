@@ -1,8 +1,5 @@
 package com.todoapp.usecases.dto;
 
-/**
- * Todo開始用のDTO
- */
 public record StartDto(
     long todoId
 ) {

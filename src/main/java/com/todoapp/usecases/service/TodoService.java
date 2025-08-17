@@ -1,15 +1,22 @@
 package com.todoapp.usecases.service;
 
+import com.todoapp.entities.Todo;
 import com.todoapp.usecases.dto.AddTodoDto;
 import com.todoapp.usecases.dto.DoneDto;
 import com.todoapp.usecases.dto.StartDto;
 import com.todoapp.usecases.dto.TodoListDto;
 import com.todoapp.usecases.dto.TodoTitleDto;
 
+import java.util.Optional;
+
 public interface TodoService {
-    TodoListDto getTodoList(Long userId);
-    void addTodo(AddTodoDto addTodoDto);
-    void updateTitle(Long todoId, TodoTitleDto todoTitleDto);
-    void start(Long todoId, StartDto startDto);
-    void done(Long todoId, DoneDto doneDto);
+    TodoListDto getTodoList(boolean exclude_done_todo, Optional<String> fields);
+
+    Todo addTodo(AddTodoDto addTodoDto);
+
+    void updateTitle(TodoTitleDto todoTitleDto);
+
+    void start(StartDto startDto);
+
+    void done(DoneDto doneDto);
 } 

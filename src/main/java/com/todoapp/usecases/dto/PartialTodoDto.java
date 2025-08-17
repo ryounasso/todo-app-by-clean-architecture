@@ -1,10 +1,13 @@
 package com.todoapp.usecases.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.todoapp.entities.Status;
+
 import java.time.LocalDateTime;
 
-public record TodoDto(
-    long id,
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record PartialTodoDto(
+    Long id,
     String title,
     Status status,
     LocalDateTime createdAt,

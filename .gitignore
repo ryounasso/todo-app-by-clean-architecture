@@ -1,5 +1,6 @@
 .pnpm-store
 node_modules
+logs
 
 # compiled output
 dist
@@ -11,7 +12,7 @@ dist
 .env
 
 # prisma
-prisma/migrations
+src-typescript-backup/prisma/migrations
 
 HELP.md
 .gradle

@@ -1,5 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine
-
+FROM gradle:jdk21
 # Set timezone
 ENV TZ=Asia/Tokyo
 
@@ -22,10 +21,11 @@ RUN ./gradlew dependencies --no-daemon
 COPY src src
 
 # Build the application
-RUN ./gradlew build --no-daemon
+RUN export $(cat .env | grep -v '^#' | xargs) && \
+    ./gradlew build --no-daemon
 
 # Create runtime image
-FROM eclipse-temurin:21-jre-alpine
+FROM gradle:jdk21
 
 # Set timezone
 ENV TZ=Asia/Tokyo
