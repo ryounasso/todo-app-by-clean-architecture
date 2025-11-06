@@ -15,9 +15,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * TodoRepositoryImplのテストクラス
- */
 @DataJpaTest
 @ActiveProfiles("test")
 public class TodoRepositoryTest {
@@ -41,4 +38,4 @@ public class TodoRepositoryTest {
         assertThat(foundTodo.get().getTitle()).isEqualTo("テストタスク");
         assertThat(foundTodo.get().getStatus()).isEqualTo(Status.READY);
     }
-} 
+}

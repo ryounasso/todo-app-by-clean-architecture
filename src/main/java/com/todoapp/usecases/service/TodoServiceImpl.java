@@ -36,8 +36,8 @@ public class TodoServiceImpl implements TodoService {
         if (fields.isPresent()) {
             String[] fieldArray = fields.orElse("id,title,status,createdAt,finishedAt").split(",");
 
-            List<ITodoDto> todoDtoList = result.stream()
-                    .map(t -> (ITodoDto) todoFactory.createPartialTodoDto(t, fieldArray))
+            List<ITodoData> todoDtoList = result.stream()
+                    .map(t -> (ITodoData) todoFactory.createPartialTodoDto(t, fieldArray))
                     .toList();
 
             return new TodoListDto(todoDtoList);

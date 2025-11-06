@@ -43,9 +43,9 @@ public class TodoFactoryImpl implements TodoFactory {
 
     @Override
     public TodoListDto createTodoListDto(List<Todo> todos) {
-        List<ITodoDto> todoDtos = todos.stream()
+        List<ITodoData> todoDtos = todos.stream()
                 .map(this::createTodoDto)
-                .map(ITodoDto.class::cast)
+                .map(ITodoData.class::cast)
                 .toList();
         
         return new TodoListDto(todoDtos);
