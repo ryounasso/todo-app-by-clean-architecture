@@ -1,6 +1,6 @@
 package com.todoapp.interfaceAdapters.controllers;
 
-import com.todoapp.usecases.dto.ITodoDto;
+import com.todoapp.usecases.dto.ITodoData;
 import com.todoapp.usecases.service.TodoService;
 import com.todoapp.usecases.dto.TodoListDto;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class GetController {
     }
 
     @GetMapping("/list.json")
-    public ResponseEntity<List<ITodoDto>> getTodoList(@RequestParam(value = "exclude_done_todo") boolean excludeDoneTodo, @RequestParam Optional<String> fields) {
+    public ResponseEntity<List<ITodoData>> getTodoList(@RequestParam(value = "exclude_done_todo") boolean excludeDoneTodo, @RequestParam Optional<String> fields) {
         TodoListDto todoList = todoService.getTodoList(excludeDoneTodo, fields);
         return ResponseEntity.ok(todoList.todos());
     }

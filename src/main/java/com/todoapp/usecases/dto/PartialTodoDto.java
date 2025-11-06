@@ -12,4 +12,4 @@ public record PartialTodoDto(
     Status status,
     LocalDateTime createdAt,
     LocalDateTime finishedAt
-) implements ITodoDto {}
+) implements IPartialTodoDto {}
