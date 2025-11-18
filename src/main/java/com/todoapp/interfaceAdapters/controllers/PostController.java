@@ -4,6 +4,7 @@ import com.todoapp.entities.Todo;
 import com.todoapp.usecases.dto.AddTodoDto;
 import com.todoapp.usecases.dto.DoneDto;
 import com.todoapp.usecases.dto.StartDto;
+import com.todoapp.usecases.dto.TodoDto;
 import com.todoapp.usecases.service.TodoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +24,12 @@ public class PostController {
     @PostMapping("/todo.json")
     public ResponseEntity<AddTodoResponse> addTodo(@Valid @RequestBody AddTodoRequest request) {
         AddTodoDto addTodoDto = new AddTodoDto(request.title());
-        Todo addedTodo = todoService.addTodo(addTodoDto);
+        TodoDto addedTodo = todoService.addTodo(addTodoDto);
 
         AddTodoResponse response = new AddTodoResponse(
-                addedTodo.getId(),
-                addedTodo.getTitle(),
-                addedTodo.getStatus().getDisplayName()
+                addedTodo.id(),
+                addedTodo.title(),
+                addedTodo.status().getDisplayName()
         );
 
         return ResponseEntity.ok(response);
