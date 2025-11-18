@@ -2,7 +2,6 @@ package com.todoapp.usecases.service;
 
 import com.todoapp.config.TodoConfig;
 import com.todoapp.entities.Status;
-import com.todoapp.entities.Todo;
 import com.todoapp.usecases.dto.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,11 +32,11 @@ class TodoServiceTest {
 
     @Test
     void TODOの情報を部分的に取得できる() {
-        Todo addedTodo = sut.addTodo(new AddTodoDto("部分取得テスト"));
+        TodoDto addedTodo = sut.addTodo(new AddTodoDto("部分取得テスト"));
 
         TodoListDto todoList = sut.getTodoList(false, Optional.of("id,title"));
         PartialTodoDto todoData = (PartialTodoDto) todoList.todos().getFirst();
-        assertThat(todoData.id()).isEqualTo(addedTodo.getId());
+        assertThat(todoData.id()).isEqualTo(addedTodo.id());
         assertThat(todoData.title()).isEqualTo("部分取得テスト");
         assertThat(todoData.status()).isNull();
         assertThat(todoData.createdAt()).isNull();
@@ -46,10 +45,10 @@ class TodoServiceTest {
 
     @Test
     void 完了したTODOを除外して取得できる() {
-        Todo todo1 = sut.addTodo(new AddTodoDto("タスク1"));
+        TodoDto todo1 = sut.addTodo(new AddTodoDto("タスク1"));
         sut.addTodo(new AddTodoDto("タスク2"));
 
-        sut.done(new DoneDto(todo1.getId()));
+        sut.done(new DoneDto(todo1.id()));
 
         TodoListDto todoList = sut.getTodoList(true, Optional.empty());
         assertThat(todoList.todos()).hasSize(1);
@@ -65,9 +64,9 @@ class TodoServiceTest {
 
     @Test
     void TODOのタイトルを更新できる() {
-        Todo todo = sut.addTodo(new AddTodoDto("古いタイトル"));
+        TodoDto todo = sut.addTodo(new AddTodoDto("古いタイトル"));
 
-        sut.updateTitle(new TodoTitleDto(todo.getId(), "新しいタイトル"));
+        sut.updateTitle(new TodoTitleDto(todo.id(), "新しいタイトル"));
 
         TodoListDto todoList = sut.getTodoList(false, Optional.empty());
         String actualTitle = todoList.todos().getFirst().title();
@@ -76,9 +75,9 @@ class TodoServiceTest {
 
     @Test
     void TODOを開始できる() {
-        Todo todo = sut.addTodo(new AddTodoDto("開始テスト"));
+        TodoDto todo = sut.addTodo(new AddTodoDto("開始テスト"));
 
-        sut.start(new StartDto(todo.getId()));
+        sut.start(new StartDto(todo.id()));
 
         TodoListDto todoList = sut.getTodoList(false, Optional.empty());
         Status actualStatus = todoList.todos().getFirst().status();
@@ -87,8 +86,8 @@ class TodoServiceTest {
 
     @Test
     void 開始したTODOを完了できる() {
-        Todo todo = sut.addTodo(new AddTodoDto("完了テスト"));
-        long targetTodoId = todo.getId();
+        TodoDto todo = sut.addTodo(new AddTodoDto("完了テスト"));
+        long targetTodoId = todo.id();
         sut.start(new StartDto(targetTodoId));
 
         sut.done(new DoneDto(targetTodoId));
@@ -100,9 +99,9 @@ class TodoServiceTest {
 
     @Test
     void 追加したTODOを完了できる() {
-        Todo todo = sut.addTodo(new AddTodoDto("完了テスト"));
+        TodoDto todo = sut.addTodo(new AddTodoDto("完了テスト"));
 
-        sut.done(new DoneDto(todo.getId()));
+        sut.done(new DoneDto(todo.id()));
 
         TodoListDto todoList = sut.getTodoList(false, Optional.empty());
         Status actualStatus = todoList.todos().getFirst().status();

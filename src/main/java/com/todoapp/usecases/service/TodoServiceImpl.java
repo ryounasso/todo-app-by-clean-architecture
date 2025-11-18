@@ -47,9 +47,10 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo addTodo(AddTodoDto addTodoDto) {
+    public TodoDto addTodo(AddTodoDto addTodoDto) {
         Todo todo = todoFactory.createTodo(addTodoDto);
-        return todoRepository.save(todo);
+        Todo savedTodo = todoRepository.save(todo);
+        return todoFactory.createTodoDto(savedTodo);
     }
 
     @Override
